@@ -27,6 +27,7 @@ import { Location } from '@element-plus/icons-vue'
 .el-menu-item {
   padding-right: 0 !important;
   padding-left: 26px !important;
+
   .item-boxs {
     display: flex;
     align-items: center;
