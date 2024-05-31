@@ -21,6 +21,7 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
+
     server: {
       proxy: {
         [env.VITE_APP_BASE_API]: {
