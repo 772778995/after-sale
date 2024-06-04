@@ -1,16 +1,13 @@
 import { defineStore } from 'pinia'
+import { constantRoute } from '@/router/routes'
 let useUserStore = defineStore('User', {
   state: () => {
     return {
-      title: '',
+      menuRoutes: constantRoute,
+      // indexPath: '/',
     }
   },
-  actions: {
-    getName() {
-      this.title = 'haha6666'
-      console.log(this.title)
-    },
-  },
+  actions: {},
   getters: {},
 })
 export default useUserStore

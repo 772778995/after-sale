@@ -2,6 +2,8 @@
 import Header from './headerTop/index.vue'
 import Menu from './menu/index.vue'
 import Main from './main/index.vue'
+import useUserStore from '@/stores/modules/user'
+const userStore = useUserStore()
 </script>
 
 <template>
@@ -13,9 +15,7 @@ import Main from './main/index.vue'
       <el-container class="layout-content">
         <el-aside>
           <el-scrollbar>
-            <!-- <el-menu > -->
-            <Menu />
-            <!-- </el-menu> -->
+            <Menu :menuList="userStore.menuRoutes" />
           </el-scrollbar>
         </el-aside>
         <el-main>
@@ -38,10 +38,11 @@ import Main from './main/index.vue'
     height: calc(100vh - 90px);
     .el-aside {
       width: 286px;
+      height: inherit;
     }
-    // .el-main {
-    //   background-color: rgb(255, 234, 0);
-    // }
+    .el-main {
+      padding: 0;
+    }
   }
 }
 </style>
