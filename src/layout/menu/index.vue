@@ -2,9 +2,11 @@
 import { watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import useUserStore from '@/stores/modules/user'
+import useLayoutSettingStore from '@/stores/modules/setting'
 const $route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+const LayoutSettingStore = useLayoutSettingStore()
 defineProps(['menuList'])
 const handleItem = (items: any) => {
   const found = userStore.addRouteTag.find((ev: any) => ev.path == items.path)
@@ -28,7 +30,11 @@ watch(
 )
 </script>
 <template>
-  <el-menu :router="true" :default-active="$route.path">
+  <el-menu
+    :router="true"
+    :default-active="$route.path"
+    :collapse="LayoutSettingStore.fold"
+  >
     <template v-for="item in menuList" :key="item.path">
       <el-sub-menu
         :index="item.path"

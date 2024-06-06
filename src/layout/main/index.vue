@@ -2,10 +2,12 @@
 import { Close } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import useUserStore from '@/stores/modules/user'
+import useLayoutSettingStore from '@/stores/modules/setting'
 
 const $route = useRoute()
 const $router = useRouter()
 const userStore = useUserStore()
+const LayoutSettingStore = useLayoutSettingStore()
 const handleChangeTag = (items: any) => {
   $router.push({ path: items.path })
 }
@@ -40,11 +42,14 @@ const handleCloseTag = (tag: any) => {
   let index = userStore.addRouteTag.findIndex((ev: any) => ev.path === tag.path)
   userStore.addRouteTag.splice(index, 1)
 }
+const changeIcon = () => {
+  LayoutSettingStore.fold = !LayoutSettingStore.fold
+}
 </script>
 
 <template>
   <div class="breadcrumb">
-    <img src="@/assets/images/icon-fold-btns.png" />
+    <img src="@/assets/images/icon-fold-btns.png" @click="changeIcon" />
     <div class="breadcrumb-box" ref="scrollContainer">
       <div
         class="breadcrumb-item"

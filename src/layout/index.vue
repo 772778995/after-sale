@@ -3,7 +3,9 @@ import Header from './headerTop/index.vue'
 import Menu from './menu/index.vue'
 import Main from './main/index.vue'
 import useUserStore from '@/stores/modules/user'
+import useLayoutSettingStore from '@/stores/modules/setting'
 const userStore = useUserStore()
+const LayoutSettingStore = useLayoutSettingStore()
 </script>
 
 <template>
@@ -13,20 +15,14 @@ const userStore = useUserStore()
         <Header />
       </el-header>
       <el-container class="layout-content">
-        <el-row>
-          <el-col :xl="4" :xs="0">
-            <el-aside>
-              <el-scrollbar>
-                <Menu :menuList="userStore.menuRoutes" />
-              </el-scrollbar>
-            </el-aside>
-          </el-col>
-          <el-col :xl="20" :xs="24">
-            <el-main>
-              <Main />
-            </el-main>
-          </el-col>
-        </el-row>
+        <el-aside :class="LayoutSettingStore.fold ? 'fold' : ''">
+          <el-scrollbar>
+            <Menu :menuList="userStore.menuRoutes" />
+          </el-scrollbar>
+        </el-aside>
+        <el-main>
+          <Main />
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -45,6 +41,9 @@ const userStore = useUserStore()
     .el-aside {
       width: 286px;
       height: inherit;
+      &.fold {
+        width: 55px;
+      }
     }
     .el-main {
       padding: 0;
