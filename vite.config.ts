@@ -8,6 +8,8 @@ export default defineConfig(({ command, mode }) => {
   let env = loadEnv(mode, process.cwd())
   return {
     plugins: [vue()],
+    base: './',
+    publicDir: './',
     resolve: {
       alias: {
         '@': path.resolve('./src'),

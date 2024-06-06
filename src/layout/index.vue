@@ -13,14 +13,20 @@ const userStore = useUserStore()
         <Header />
       </el-header>
       <el-container class="layout-content">
-        <el-aside>
-          <el-scrollbar>
-            <Menu :menuList="userStore.menuRoutes" />
-          </el-scrollbar>
-        </el-aside>
-        <el-main>
-          <Main />
-        </el-main>
+        <el-row>
+          <el-col :xl="4" :xs="0">
+            <el-aside>
+              <el-scrollbar>
+                <Menu :menuList="userStore.menuRoutes" />
+              </el-scrollbar>
+            </el-aside>
+          </el-col>
+          <el-col :xl="20" :xs="24">
+            <el-main>
+              <Main />
+            </el-main>
+          </el-col>
+        </el-row>
       </el-container>
     </el-container>
   </div>

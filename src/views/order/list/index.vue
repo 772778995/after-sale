@@ -4,9 +4,16 @@ import type { FormProps } from 'element-plus'
 import { Check } from '@element-plus/icons-vue'
 const labelPosition = ref<FormProps['labelPosition']>('left')
 const formInline = reactive({
+  orderId: '',
+  phone: '',
+  model: '',
   status: '',
+  trackId: '',
+  username: '',
+  SN: '',
   device: '',
   mode: '',
+  breakdown: '',
   date: '',
 })
 const shortcuts = [
@@ -179,6 +186,7 @@ const options = [
     label: '待缴费',
   },
 ]
+// 导出
 const handleExportCSV = () => {
   let a = [
     '订单号',
@@ -213,14 +221,34 @@ const handleExportCSV = () => {
   // 移除a标签
   link.remove()
 }
+// 查找
+const handleFindData = () => {
+  console.log(formInline)
+}
+// 重置
+const handleReset = () => {
+  Object.assign(formInline, {
+    orderId: '',
+    phone: '',
+    model: '',
+    status: '',
+    trackId: '',
+    username: '',
+    SN: '',
+    device: '',
+    mode: '',
+    breakdown: '',
+    date: '',
+  })
+}
 </script>
 
 <template>
   <div class="order-contanier">
     <div class="order-box">
       <div class="box-top">
-        <el-button type="primary">查询</el-button>
-        <el-button type="info">重置</el-button>
+        <el-button type="primary" @click="handleFindData">查询</el-button>
+        <el-button type="info" @click="handleReset">重置</el-button>
         <el-button type="success" @click="handleExportCSV">导出</el-button>
       </div>
       <el-form
@@ -231,13 +259,22 @@ const handleExportCSV = () => {
         :label-position="labelPosition"
       >
         <el-form-item label="订单号:">
-          <el-input placeholder="输入工单号"></el-input>
+          <el-input
+            placeholder="输入工单号"
+            v-model="formInline.orderId"
+          ></el-input>
         </el-form-item>
         <el-form-item label="手机号:">
-          <el-input placeholder="输入手机号"></el-input>
+          <el-input
+            placeholder="输入手机号"
+            v-model="formInline.phone"
+          ></el-input>
         </el-form-item>
         <el-form-item label="设备型号:">
-          <el-input placeholder="输入设备型号"></el-input>
+          <el-input
+            placeholder="输入设备型号"
+            v-model="formInline.model"
+          ></el-input>
         </el-form-item>
         <el-form-item label="设备分类:">
           <el-tree-select
@@ -282,18 +319,25 @@ const handleExportCSV = () => {
                 </el-icon>
               </div>
             </el-option>
-            <!-- <el-option label="Zone one" value="shanghai" />
-            <el-option label="Zone two" value="beijing" /> -->
           </el-select>
         </el-form-item>
         <el-form-item label="快递单号:">
-          <el-input placeholder="输入快递单号"></el-input>
+          <el-input
+            placeholder="输入快递单号"
+            v-model="formInline.trackId"
+          ></el-input>
         </el-form-item>
         <el-form-item label="联系人:">
-          <el-input placeholder="输入联系人姓名"></el-input>
+          <el-input
+            placeholder="输入联系人姓名"
+            v-model="formInline.username"
+          ></el-input>
         </el-form-item>
         <el-form-item label="设备SN号:">
-          <el-input placeholder="输入设备SN号(机身码)"></el-input>
+          <el-input
+            placeholder="输入设备SN号(机身码)"
+            v-model="formInline.SN"
+          ></el-input>
         </el-form-item>
         <el-form-item label="维修类型:">
           <el-select
@@ -306,7 +350,10 @@ const handleExportCSV = () => {
           </el-select>
         </el-form-item>
         <el-form-item label="设备故障:">
-          <el-input placeholder="故障原因(检测结果)"></el-input>
+          <el-input
+            placeholder="故障原因(检测结果)"
+            v-model="formInline.breakdown"
+          ></el-input>
         </el-form-item>
       </el-form>
       <div class="box-date">
@@ -415,7 +462,8 @@ const handleExportCSV = () => {
             width="150"
           ></el-table-column>
           <el-table-column label="订单操作" fixed="right" width="180px">
-            <template #="{ row }">
+            <!-- <template #="{ row }"> -->
+            <template>
               <el-button type="primary" link class="btns">详情</el-button>
               <el-button type="danger" link class="btns">删除</el-button>
               <el-button type="info" link class="btns">关闭</el-button>
@@ -469,7 +517,8 @@ const handleExportCSV = () => {
             </template>
           </el-table-column>
           <el-table-column label="联系客户" fixed="right" width="100px">
-            <template #="{ row }">
+            <!-- <template #="{ row }"> -->
+            <template>
               <el-button type="success" link class="btns">发消息</el-button>
             </template>
           </el-table-column>

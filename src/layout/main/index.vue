@@ -22,17 +22,23 @@ const handleCloseTag = (tag: any) => {
       })
     }, 500)
     return
+  } else if ($route.path == tag.path) {
+    let index = userStore.addRouteTag.findIndex(
+      (ev: any) => ev.path === tag.path,
+    )
+    if (index !== -1) {
+      userStore.addRouteTag.splice(index, 1)
+      $router.push({
+        path:
+          index == 0
+            ? userStore.addRouteTag[0].path
+            : userStore.addRouteTag[index - 1].path,
+      })
+    }
+    return
   }
   let index = userStore.addRouteTag.findIndex((ev: any) => ev.path === tag.path)
-  if (index !== -1) {
-    userStore.addRouteTag.splice(index, 1)
-    $router.push({
-      path:
-        index == 0
-          ? userStore.addRouteTag[0].path
-          : userStore.addRouteTag[index - 1].path,
-    })
-  }
+  userStore.addRouteTag.splice(index, 1)
 }
 </script>
 
