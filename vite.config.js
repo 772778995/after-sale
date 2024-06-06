@@ -10,7 +10,7 @@ export default defineConfig(function (_a) {
     return {
         plugins: [vue()],
         base: './',
-        publicDir: './',
+        // publicDir: './',
         resolve: {
             alias: {
                 '@': path.resolve('./src'),
