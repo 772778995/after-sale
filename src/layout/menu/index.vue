@@ -1,26 +1,31 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import useUserStore from '@/stores/modules/user'
 const $route = useRoute()
-
+const router = useRouter()
+const userStore = useUserStore()
 defineProps(['menuList'])
-const indexPath = ref()
 const handleItem = (items: any) => {
-  console.log(items)
-  console.log($route, '66666')
-  // indexPath.value = e.indexPath[0]
-  // sessionStorage.setItem('indexPath', indexPath.value)
+  const found = userStore.addRouteTag.find((ev: any) => ev.path == items.path)
+  if (!found) {
+    userStore.addRouteTag.unshift(items)
+  }
 }
 onMounted(() => {
-  indexPath.value = sessionStorage.getItem('indexPath')
-    ? (sessionStorage.getItem('indexPath') as string)
-    : '/'
+  userStore.indexPath = $route.matched[0].path
+  userStore.addRouteTag.unshift({
+    meta: $route.meta,
+    name: $route.name,
+    path: $route.path,
+  })
 })
-</script>
-<script lang="ts">
-export default {
-  name: 'Menu',
-}
+watch(
+  () => router.currentRoute.value,
+  (newVal: any) => {
+    userStore.indexPath = newVal.matched[0].path
+  },
+)
 </script>
 <template>
   <el-menu :router="true" :default-active="$route.path">
@@ -31,7 +36,11 @@ export default {
       >
         <template #title>
           <img
-            :src="item.path !== indexPath ? item.meta.icon : item.meta.active"
+            :src="
+              item.path !== userStore.indexPath
+                ? item.meta.icon
+                : item.meta.active
+            "
             class="icons"
           />
           <span>{{ item.meta.title }}</span>

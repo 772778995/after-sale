@@ -43,7 +43,7 @@ const currentStatus = ref(0)
 const handleStatusChange = (status: number) => {
   currentStatus.value = status
 }
-const tableData = [
+const tableData = reactive([
   {
     orderId: '240101001',
     payStatus: 1,
@@ -128,7 +128,7 @@ const tableData = [
     date: '24-01-01 05:58:32',
     fastState: 5,
   },
-]
+])
 const currentPage = ref(1)
 const pageSize = ref(6)
 const productData = reactive([
@@ -179,6 +179,40 @@ const options = [
     label: '待缴费',
   },
 ]
+const handleExportCSV = () => {
+  let a = [
+    '订单号',
+    '支付状态',
+    '处理状态',
+    '订单来源',
+    '联系人姓名',
+    '收货人姓名',
+    '淘宝京东订单号',
+    '产品型号',
+    '快递单号',
+    '订单金额',
+    '下单时间',
+  ]
+  let csv = tableData.map((item) => Object.values(item))
+  csv.unshift(a)
+  console.log(csv)
+
+  // 构造数据字符，换行需要用\r\n
+  let CsvString = csv.map((data) => data.join(',')).join('\r\n')
+  // 加上 CSV 文件头标识
+  CsvString =
+    'data:application/vnd.ms-excel;charset=utf-8,\uFEFF' +
+    encodeURIComponent(CsvString)
+  // 通过创建a标签下载
+  const link = document.createElement('a')
+  link.href = CsvString
+  // 对下载的文件命名
+  link.download = `订单列表.csv`
+  // 模拟点击下载
+  link.click()
+  // 移除a标签
+  link.remove()
+}
 </script>
 
 <template>
@@ -187,7 +221,7 @@ const options = [
       <div class="box-top">
         <el-button type="primary">查询</el-button>
         <el-button type="info">重置</el-button>
-        <el-button type="success">导出</el-button>
+        <el-button type="success" @click="handleExportCSV">导出</el-button>
       </div>
       <el-form
         :inline="true"

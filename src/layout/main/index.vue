@@ -1,17 +1,61 @@
 <script setup lang="ts">
 import { Close } from '@element-plus/icons-vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import useUserStore from '@/stores/modules/user'
+
 const $route = useRoute()
-console.log($route, '66666')
+const $router = useRouter()
+const userStore = useUserStore()
+const handleChangeTag = (items: any) => {
+  $router.push({ path: items.path })
+}
+const handleCloseTag = (tag: any) => {
+  if (userStore.addRouteTag.length == 1) {
+    userStore.addRouteTag.splice(0, 1)
+    $router.push({ path: '/' })
+    let timer = setTimeout(() => {
+      clearTimeout(timer)
+      userStore.addRouteTag.unshift({
+        meta: $route.meta,
+        name: $route.name,
+        path: $route.path,
+      })
+    }, 500)
+    return
+  }
+  let index = userStore.addRouteTag.findIndex((ev: any) => ev.path === tag.path)
+  if (index !== -1) {
+    userStore.addRouteTag.splice(index, 1)
+    $router.push({
+      path:
+        index == 0
+          ? userStore.addRouteTag[0].path
+          : userStore.addRouteTag[index - 1].path,
+    })
+  }
+}
 </script>
 
 <template>
   <div class="breadcrumb">
     <img src="@/assets/images/icon-fold-btns.png" />
-    <div class="breadcrumb-box">
-      <div class="breadcrumb-item">
-        <p class="title">订单管理</p>
-        <el-icon color="#606677"><Close /></el-icon>
+    <div class="breadcrumb-box" ref="scrollContainer">
+      <div
+        class="breadcrumb-item"
+        v-for="(item, index) in userStore.addRouteTag"
+        :key="index"
+        :class="item.path == $route.path ? 'active' : ''"
+        @click="handleChangeTag(item)"
+      >
+        <p class="title" :class="item.path == $route.path ? 'active' : ''">
+          {{ item.meta.title }}
+        </p>
+        <el-icon
+          :color="item.path == $route.path ? '#606677' : ''"
+          @click.stop="handleCloseTag(item)"
+        >
+          <Close />
+        </el-icon>
       </div>
     </div>
   </div>
@@ -40,20 +84,28 @@ console.log($route, '66666')
     overflow-y: hidden;
     flex-wrap: nowrap;
     .breadcrumb-item {
+      min-width: 176px;
       height: 42px;
-      background: url('@/assets/images/icon-breadcrumb-bg.png') no-repeat;
-      background-size: cover;
       display: flex;
       align-items: center;
+      justify-content: end;
       white-space: nowrap;
       padding-right: 27px;
+
+      &.active {
+        background: url('@/assets/images/icon-breadcrumb-bg.png') no-repeat;
+        background-size: cover;
+      }
+
       .title {
         text-align: center;
         font-size: 16px;
         color: #303133;
-        // color: #606677;
         flex: 0.9;
-        padding: 0 45px 0 30px;
+
+        &.active {
+          color: #606677;
+        }
       }
     }
   }

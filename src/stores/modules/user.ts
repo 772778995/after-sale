@@ -4,7 +4,8 @@ let useUserStore = defineStore('User', {
   state: () => {
     return {
       menuRoutes: constantRoute,
-      // indexPath: '/',
+      indexPath: '',
+      addRouteTag: [] as any,
     }
   },
   actions: {},
