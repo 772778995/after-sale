@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import orderList from '../components/orderList.vue'
+import orderHeader from '../components/orderHeader.vue'
+import useLayoutSettingStore from '@/stores/modules/setting'
+const useSettingStore = useLayoutSettingStore()
 </script>
 
 <template>
   <div class="order-contanier">
-    <orderList />
+    <orderList v-if="!useSettingStore.headerShow" />
+    <orderHeader v-else />
   </div>
 </template>
 
@@ -13,8 +17,5 @@ import orderList from '../components/orderList.vue'
   height: 100%;
   background-color: #fff;
   border-radius: 8px;
-}
-.demo-form-inline .el-input {
-  --el-input-width: 210px;
 }
 </style>

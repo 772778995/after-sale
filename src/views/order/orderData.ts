@@ -213,3 +213,20 @@ export const productData = [
     ],
   },
 ]
+export const headerDate = [
+  {
+    id: 'A01',
+    name: '用户DI',
+    sort: '用户信息',
+  },
+  {
+    id: 'A02',
+    name: '用户DI',
+    sort: '用户信息',
+  },
+  {
+    id: 'A03',
+    name: '用户DI',
+    sort: '用户信息',
+  },
+]

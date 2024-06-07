@@ -1,7 +1,10 @@
 import { reactive, ref } from 'vue'
 import { tableData } from './orderData'
 import type { FormProps } from 'element-plus'
+import useLayoutSettingStore from '@/stores/modules/setting'
+
 const useOrder = () => {
+  const useSettingStore = useLayoutSettingStore()
   const formInline = reactive({
     orderId: '',
     phone: '',
@@ -155,6 +158,11 @@ const useOrder = () => {
   const handleStatusChange = (status: number) => {
     currentStatus.value = status
   }
+  // 跳转表头设置
+  const handleHeaderSet = () => {
+    useSettingStore.headerShow = !useSettingStore.headerShow
+    console.log(useSettingStore.headerShow, '表头')
+  }
   return {
     formInline,
     status,
@@ -169,6 +177,7 @@ const useOrder = () => {
     goOrderDetail,
     goChart,
     handleStatusChange,
+    handleHeaderSet,
   }
 }
 export default useOrder

@@ -22,6 +22,7 @@ const {
   goOrderDetail,
   goChart,
   handleStatusChange,
+  handleHeaderSet,
 } = useOrder()
 </script>
 
@@ -165,7 +166,9 @@ const {
             {{ item }}
           </div>
         </div>
-        <el-button class="btn-plain">表头设置</el-button>
+        <el-button class="btn-plain" @click="handleHeaderSet">
+          表头设置
+        </el-button>
         <el-button class="btn-plain">批量发货</el-button>
         <el-button class="btn-plain">批量通过审核</el-button>
       </div>
