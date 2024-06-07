@@ -258,61 +258,52 @@ const {
               详情
             </el-button>
             <el-button type="danger" link class="btns">删除</el-button>
-            <el-button type="info" link class="btns">关闭</el-button>
+            <el-button type="warning" link class="btns">关闭</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="快捷" fixed="right" width="80px">
+        <el-table-column label="快捷" fixed="right" width="100px">
           <template #="{ row }">
-            <el-button
-              type="primary"
-              link
-              class="btns"
-              v-if="row.fastState == 0"
-            >
+            <el-button type="primary" class="btnsk" v-if="row.fastState == 0">
               审核
             </el-button>
             <el-button
               type="primary"
-              link
-              class="btns"
+              class="btnsk"
               v-else-if="row.fastState == 1"
             >
               确认收货
             </el-button>
             <el-button
               type="primary"
-              link
-              class="btns"
+              class="btnsk"
               v-else-if="row.fastState == 2"
             >
               检测报价
             </el-button>
             <el-button
               type="primary"
-              link
-              class="btns"
+              class="btnsk"
               v-else-if="row.fastState == 3"
             >
               维修记录
             </el-button>
             <el-button
               type="primary"
-              link
-              class="btns"
+              class="btnsk"
               v-else-if="row.fastState == 4"
             >
               测试记录
             </el-button>
-            <el-button type="primary" link class="btns" v-else>
-              发货登记
-            </el-button>
+            <el-button type="primary" class="btnsk" v-else>发货登记</el-button>
           </template>
         </el-table-column>
         <el-table-column label="联系客户" fixed="right" width="100px">
           <template #="{ row }">
-            <el-button type="success" link class="btns" @click="goChart(row)">
-              发消息
-            </el-button>
+            <img
+              class="chart-img"
+              src="@/assets/images/icon-send-chart.png"
+              @click="goChart(row)"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -395,8 +386,20 @@ const {
       margin: 20px 0;
 
       .btns {
-        border: 0;
         padding: 0;
+      }
+      .btnsk {
+        width: 74px;
+        background: none;
+        color: #409eff;
+        padding: 0;
+        margin: 0;
+        font-weight: 500;
+        font-size: 14px;
+      }
+      .chart-img {
+        width: 23px;
+        height: 20px;
       }
       .pay-status {
         display: inline-block;
@@ -452,4 +455,3 @@ const {
   justify-content: space-between;
 }
 </style>
-@/hooks/orderData @/hooks/order/orderData
