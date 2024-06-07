@@ -1,319 +1,28 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import type { FormProps } from 'element-plus'
 import { Check } from '@element-plus/icons-vue'
-const labelPosition = ref<FormProps['labelPosition']>('left')
-const formInline = reactive({
-  orderId: '',
-  phone: '',
-  model: '',
-  status: '',
-  trackId: '',
-  username: '',
-  SN: '',
-  device: '',
-  mode: '',
-  breakdown: '',
-  date: '',
-})
-const selectIdArr = ref<any>([])
-const shortcuts = [
-  {
-    text: '最近一周',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-      return [start, end]
-    },
-  },
-  {
-    text: '最近一个月',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-      return [start, end]
-    },
-  },
-  {
-    text: '最近三个月',
-    value: () => {
-      const end = new Date()
-      const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-      return [start, end]
-    },
-  },
-]
-const status = reactive(['全部', '未处理', '已处理'])
-const currentStatus = ref(0)
-const handleStatusChange = (status: number) => {
-  currentStatus.value = status
-}
-const tableData = reactive([
-  {
-    orderId: '240101001',
-    payStatus: 1,
-    status: 0,
-    origin: '个人',
-    name: '张小花',
-    nameshou: '张小花1',
-    phone: '13512345678',
-    id: '3878589027481581913',
-    mode: 'Wind',
-    idk: '3878589027481581913',
-    money: '25',
-    date: '24-01-01 05:58:32',
-    fastState: 0,
-  },
-  {
-    orderId: '240101001',
-    payStatus: 0,
-    status: 1,
-    origin: '个人',
-    name: '张小花',
-    nameshou: '张小花1',
-    phone: '13512345678',
-    id: '3878589027481581913',
-    mode: 'Wind',
-    idk: '3878589027481581913',
-    money: '25',
-    date: '24-01-01 05:58:32',
-    fastState: 0,
-  },
-  {
-    orderId: '240101001',
-    payStatus: 0,
-    status: 2,
-    origin: '个人',
-    name: '张小花',
-    nameshou: '张小花1',
-    phone: '13512345678',
-    id: '3878589027481581913',
-    mode: 'Wind',
-    idk: '3878589027481581913',
-    money: '25',
-    date: '24-01-01 05:58:32',
-    fastState: 0,
-  },
-  {
-    orderId: '240101001',
-    payStatus: 1,
-    status: 3,
-    origin: '个人',
-    name: '张小花',
-    nameshou: '张小花1',
-    phone: '13512345678',
-    id: '3878589027481581913',
-    mode: 'Wind',
-    idk: '3878589027481581913',
-    money: '25',
-    date: '24-01-01 05:58:32',
-    fastState: 0,
-  },
-  {
-    orderId: '240101001',
-    payStatus: 1,
-    status: 4,
-    origin: '个人',
-    name: '张小花',
-    nameshou: '张小花1',
-    phone: '13512345678',
-    id: '3878589027481581913',
-    mode: 'Wind',
-    idk: '3878589027481581913',
-    money: '25',
-    date: '24-01-01 05:58:32',
-    fastState: 0,
-  },
-  {
-    orderId: '240101001',
-    payStatus: 0,
-    status: 2,
-    origin: '个人',
-    name: '张小花',
-    nameshou: '张小花1',
-    phone: '13512345678',
-    id: '3878589027481581913',
-    mode: 'Wind',
-    idk: '3878589027481581913',
-    money: '25',
-    date: '24-01-01 05:58:32',
-    fastState: 0,
-  },
-])
-const currentPage = ref(1)
-const pageSize = ref(6)
-const productData = reactive([
-  {
-    value: '1',
-    label: '吹管',
-    children: [
-      {
-        value: '1-1',
-        label: '主产品',
-      },
-      {
-        value: '1-2',
-        label: '周边',
-      },
-    ],
-  },
-  {
-    value: '2',
-    label: '控制器',
-    children: [
-      {
-        value: '2-1',
-        label: '服务',
-      },
-    ],
-  },
-])
-const options = [
-  {
-    value: 'Option1',
-    label: '待审核',
-  },
-  {
-    value: 'Option2',
-    label: '待寄出',
-  },
-  {
-    value: 'Option3',
-    label: '待收货(售后部)',
-  },
-  {
-    value: 'Option4',
-    label: '检测中',
-  },
-  {
-    value: 'Option5',
-    label: '待缴费',
-  },
-]
-const hasCSV = (item: any) => {
-  switch (item.payStatus) {
-    case 0:
-      item.payStatus = '未支付'
-      break
-    case 1:
-      item.payStatus = '已支付'
-      break
-    default:
-      break
-  }
-  switch (item.status) {
-    case 0:
-      item.status = '待审核'
-      break
-    case 1:
-      item.status = '待收货(售后部)'
-      break
-    case 2:
-      item.status = '处理中'
-      break
-    case 3:
-      item.status = '测试中'
-      break
-    case 4:
-      item.status = '待寄出'
-      break
-    default:
-      break
-  }
-  switch (item.fastState) {
-    case 0:
-      item.fastState = '审核'
-      break
-    case 1:
-      item.fastState = '确认收货'
-      break
-    default:
-      item.fastState = '测试记录'
-      break
-  }
-}
-// 导出
-const handleExportCSV = () => {
-  let a = [
-    '订单号',
-    '支付状态',
-    '处理状态',
-    '订单来源',
-    '联系人姓名',
-    '收货人姓名',
-    '收货人手机',
-    '淘宝京东订单号',
-    '产品型号',
-    '快递单号',
-    '订单金额',
-    '下单时间',
-    '审核状态',
-  ]
-  let csv =
-    selectIdArr.value.length > 0
-      ? JSON.parse(JSON.stringify(selectIdArr.value)).map((item: any) => {
-          hasCSV(item)
-          return Object.values(item)
-        })
-      : JSON.parse(JSON.stringify(tableData)).map((item: any) => {
-          hasCSV(item)
-          return Object.values(item)
-        })
-  csv.unshift(a)
-  console.log(csv)
-
-  // 构造数据字符，换行需要用\r\n
-  let CsvString = csv.map((data: any) => data.join(',')).join('\r\n')
-  // 加上 CSV 文件头标识
-  CsvString =
-    'data:application/vnd.ms-excel;charset=utf-8,\uFEFF' +
-    encodeURIComponent(CsvString)
-  // 通过创建a标签下载
-  const link = document.createElement('a')
-  link.href = CsvString
-  // 对下载的文件命名
-  link.download = `订单列表.csv`
-  // 模拟点击下载
-  link.click()
-  // 移除a标签
-  link.remove()
-}
-// 查找
-const handleFindData = () => {
-  console.log(formInline)
-}
-// 重置
-const handleReset = () => {
-  Object.assign(formInline, {
-    orderId: '',
-    phone: '',
-    model: '',
-    status: '',
-    trackId: '',
-    username: '',
-    SN: '',
-    device: '',
-    mode: '',
-    breakdown: '',
-    date: '',
-  })
-}
-// 选中
-const selectionChange = (value: any) => {
-  selectIdArr.value = value
-  console.log(selectIdArr.value)
-}
-// 跳转详情
-const goOrderDetail = (item: any) => {
-  console.log(item)
-}
-// 跳转会话
-const goChart = (item: any) => {
-  console.log(item)
-}
+import {
+  shortcuts,
+  statusOptions,
+  repairOptions,
+  tableData,
+  productData,
+} from '../orderData'
+import useOrder from '../order'
+const {
+  formInline,
+  status,
+  currentStatus,
+  currentPage,
+  pageSize,
+  labelPosition,
+  handleExportCSV,
+  handleFindData,
+  handleReset,
+  selectionChange,
+  goOrderDetail,
+  goChart,
+  handleStatusChange,
+} = useOrder()
 </script>
 
 <template>
@@ -374,7 +83,7 @@ const goChart = (item: any) => {
           clearable
         >
           <el-option
-            v-for="item in options"
+            v-for="item in statusOptions"
             :label="item.label"
             :value="item.value"
           >
@@ -411,8 +120,18 @@ const goChart = (item: any) => {
           placeholder="请选择维修类型"
           clearable
         >
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
+          <el-option
+            v-for="item in repairOptions"
+            :label="item.label"
+            :value="item.value"
+          >
+            <div class="select-option">
+              <span>{{ item.label }}</span>
+              <!-- <el-icon v-if="formInline.status === item.value" color="#409EFF">
+                <Check />
+              </el-icon> -->
+            </div>
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="设备故障:">
@@ -733,3 +452,4 @@ const goChart = (item: any) => {
   justify-content: space-between;
 }
 </style>
+@/hooks/orderData @/hooks/order/orderData
