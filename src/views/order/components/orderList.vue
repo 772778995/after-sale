@@ -16,7 +16,7 @@ const formInline = reactive({
   breakdown: '',
   date: '',
 })
-const selectIdArr = ref([])
+const selectIdArr = ref<any>([])
 const shortcuts = [
   {
     text: '最近一周',
@@ -193,6 +193,48 @@ const options = [
     label: '待缴费',
   },
 ]
+const hasCSV = (item: any) => {
+  switch (item.payStatus) {
+    case 0:
+      item.payStatus = '未支付'
+      break
+    case 1:
+      item.payStatus = '已支付'
+      break
+    default:
+      break
+  }
+  switch (item.status) {
+    case 0:
+      item.status = '待审核'
+      break
+    case 1:
+      item.status = '待收货(售后部)'
+      break
+    case 2:
+      item.status = '处理中'
+      break
+    case 3:
+      item.status = '测试中'
+      break
+    case 4:
+      item.status = '待寄出'
+      break
+    default:
+      break
+  }
+  switch (item.fastState) {
+    case 0:
+      item.fastState = '审核'
+      break
+    case 1:
+      item.fastState = '确认收货'
+      break
+    default:
+      item.fastState = '测试记录'
+      break
+  }
+}
 // 导出
 const handleExportCSV = () => {
   let a = [
@@ -212,13 +254,19 @@ const handleExportCSV = () => {
   ]
   let csv =
     selectIdArr.value.length > 0
-      ? selectIdArr.value.map((item) => Object.values(item))
-      : tableData.map((item) => Object.values(item))
+      ? JSON.parse(JSON.stringify(selectIdArr.value)).map((item: any) => {
+          hasCSV(item)
+          return Object.values(item)
+        })
+      : JSON.parse(JSON.stringify(tableData)).map((item: any) => {
+          hasCSV(item)
+          return Object.values(item)
+        })
   csv.unshift(a)
   console.log(csv)
 
   // 构造数据字符，换行需要用\r\n
-  let CsvString = csv.map((data) => data.join(',')).join('\r\n')
+  let CsvString = csv.map((data: any) => data.join(',')).join('\r\n')
   // 加上 CSV 文件头标识
   CsvString =
     'data:application/vnd.ms-excel;charset=utf-8,\uFEFF' +
@@ -257,6 +305,14 @@ const handleReset = () => {
 const selectionChange = (value: any) => {
   selectIdArr.value = value
   console.log(selectIdArr.value)
+}
+// 跳转详情
+const goOrderDetail = (item: any) => {
+  console.log(item)
+}
+// 跳转会话
+const goChart = (item: any) => {
+  console.log(item)
 }
 </script>
 
@@ -474,7 +530,14 @@ const selectionChange = (value: any) => {
         ></el-table-column>
         <el-table-column label="订单操作" fixed="right" width="180px">
           <template #="{ row }">
-            <el-button type="primary" link class="btns">详情</el-button>
+            <el-button
+              type="primary"
+              link
+              class="btns"
+              @click="goOrderDetail(row)"
+            >
+              详情
+            </el-button>
             <el-button type="danger" link class="btns">删除</el-button>
             <el-button type="info" link class="btns">关闭</el-button>
           </template>
@@ -528,7 +591,9 @@ const selectionChange = (value: any) => {
         </el-table-column>
         <el-table-column label="联系客户" fixed="right" width="100px">
           <template #="{ row }">
-            <el-button type="success" link class="btns">发消息</el-button>
+            <el-button type="success" link class="btns" @click="goChart(row)">
+              发消息
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
