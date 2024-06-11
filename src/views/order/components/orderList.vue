@@ -337,7 +337,10 @@ const {
     }
   }
   .demo-form-inline {
-    margin-left: 24px;
+    margin-left: 20px;
+  }
+  .el-form--inline .el-form-item {
+    margin-right: 18px;
   }
   .box-date {
     text-align: end;

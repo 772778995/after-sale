@@ -4,8 +4,15 @@ import Menu from './menu/index.vue'
 import Main from './main/index.vue'
 import useUserStore from '@/stores/modules/user'
 import useLayoutSettingStore from '@/stores/modules/setting'
+import { watch } from 'vue'
 const userStore = useUserStore()
 const LayoutSettingStore = useLayoutSettingStore()
+watch(
+  () => window.innerWidth,
+  (newVal) => {
+    console.log(newVal, '--------------')
+  },
+)
 </script>
 
 <template>
@@ -14,16 +21,26 @@ const LayoutSettingStore = useLayoutSettingStore()
       <el-header>
         <Header />
       </el-header>
-      <el-container class="layout-content">
-        <el-aside :class="LayoutSettingStore.fold ? 'fold' : ''">
-          <el-scrollbar>
-            <Menu :menuList="userStore.menuRoutes" />
-          </el-scrollbar>
-        </el-aside>
-        <el-main>
+      <el-row class="layout-content">
+        <el-col
+          :lg="LayoutSettingStore.fold ? 1 : 4"
+          :sm="LayoutSettingStore.fold ? 2 : 0"
+          :xs="LayoutSettingStore.fold ? 2 : 0"
+        >
+          <div class="aside">
+            <el-scrollbar>
+              <Menu :menuList="userStore.menuRoutes" />
+            </el-scrollbar>
+          </div>
+        </el-col>
+        <el-col
+          :lg="LayoutSettingStore.fold ? 23 : 20"
+          :sm="LayoutSettingStore.fold ? 22 : 24"
+          :xs="LayoutSettingStore.fold ? 22 : 24"
+        >
           <Main />
-        </el-main>
-      </el-container>
+        </el-col>
+      </el-row>
     </el-container>
   </div>
 </template>
@@ -37,16 +54,17 @@ const LayoutSettingStore = useLayoutSettingStore()
     height: 90px;
   }
   .layout-content {
+    width: 100%;
+    display: flex;
     height: calc(100vh - 90px);
-    .el-aside {
-      width: 286px;
-      height: inherit;
+    .aside {
       &.fold {
         width: 55px;
       }
     }
-    .el-main {
-      padding: 0;
+    .el-col {
+      padding: 0 !important;
+      height: calc(100vh - 90px);
     }
   }
 }

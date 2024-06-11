@@ -148,7 +148,8 @@ const useOrder = () => {
   }
   // 跳转详情
   const goOrderDetail = (item: any) => {
-    console.log(item, '跳转详情')
+    useSettingStore.orderDetailPage = true
+    console.log(item, useSettingStore.orderDetailPage, '跳转详情')
   }
   // 跳转会话
   const goChart = (item: any) => {
