@@ -23,13 +23,13 @@ const handleCurrentChange = (val: number) => {
 }
 const changeIsHidden = (row: any, $index: number) => {
   console.log(row, $index, pagedArray.value)
-  let page = pagedArray.value
-  pagedArray.value = page.map((item) => {
-    if (row.id == item.id) {
-      item.isHidden = true
-    }
-    return item
-  })
+  // let page = pagedArray.value
+  // pagedArray.value = page.map((item) => {
+  //   if (row.id == item.id) {
+  //     item.isHidden = true
+  //   }
+  //   return item
+  // })
 }
 </script>
 
