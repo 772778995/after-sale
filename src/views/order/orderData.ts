@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 export const shortcuts = [
   {
     text: '最近一周',
@@ -213,7 +214,7 @@ export const productData = [
     ],
   },
 ]
-export const headerDate = [
+export const headerDate = ref([
   {
     id: 'A01',
     name: '用户DI',
@@ -262,4 +263,4 @@ export const headerDate = [
     sort: '用户信息',
     isHidden: false,
   },
-]
+])

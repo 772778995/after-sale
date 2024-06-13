@@ -1,19 +1,94 @@
 <script setup lang="ts">
 import { Bottom, Hide, InfoFilled, Top, View } from '@element-plus/icons-vue'
-import { headerDate } from '../orderData'
+// import { headerDate } from '../orderData'
 import useLayoutSettingStore from '@/stores/modules/setting'
 import { computed, ref } from 'vue'
 const useSettingStore = useLayoutSettingStore()
+const headerDate = ref<any>([
+  {
+    ids: 1,
+    id: 'A01',
+    name: '用户DI',
+    sort: '用户信息',
+    isHidden: false,
+  },
+  {
+    ids: 2,
+    id: 'A02',
+    name: '联系人电话',
+    sort: '用户信息',
+    isHidden: false,
+  },
+  {
+    ids: 3,
+    id: 'A03',
+    name: '用户昵称',
+    sort: '订单信息',
+    isHidden: false,
+  },
+  {
+    ids: 4,
+    id: 'A04',
+    name: '售后订单号',
+    sort: '物流信息',
+    isHidden: false,
+  },
+  {
+    ids: 5,
+    id: 'A05',
+    name: '快递单号',
+    sort: '用户信息',
+    isHidden: false,
+  },
+  {
+    ids: 6,
+    id: 'A06',
+    name: '用户昵称',
+    sort: '订单信息',
+    isHidden: false,
+  },
+  {
+    ids: 7,
+    id: 'A07',
+    name: '售后订单号',
+    sort: '物流信息',
+    isHidden: false,
+  },
+  {
+    ids: 8,
+    id: 'A08',
+    name: '快递单号',
+    sort: '用户信息',
+    isHidden: false,
+  },
+])
 const goBackOrder = () => {
+  useSettingStore.headerTitle = headerDate.value.filter(
+    (item: any) => item.isHidden != true,
+  )
   useSettingStore.headerShow = !useSettingStore.headerShow
+}
+const goDefultData = () => {
+  headerDate.value.sort((a: any, b: any) => a.ids - b.ids)
+  headerDate.value.forEach((item: any) => {
+    item.isHidden = false
+  })
+  console.log(headerDate.value, '0000')
 }
 const currentPage = ref(1)
 const pageSize = ref(5)
-const pagedArray = computed(() => {
-  return headerDate.slice(
-    (currentPage.value - 1) * pageSize.value,
-    currentPage.value * pageSize.value,
-  )
+const message = ref()
+
+const pagedArray = computed({
+  get() {
+    return headerDate.value.slice(
+      (currentPage.value - 1) * pageSize.value,
+      currentPage.value * pageSize.value,
+    )
+  },
+  set(value) {
+    message.value = value
+  },
 })
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -21,22 +96,51 @@ const handleSizeChange = (val: number) => {
 const handleCurrentChange = (val: number) => {
   currentPage.value = val
 }
-const changeIsHidden = (row: any, $index: number) => {
-  console.log(row, $index, pagedArray.value)
-  // let page = pagedArray.value
-  // pagedArray.value = page.map((item) => {
-  //   if (row.id == item.id) {
-  //     item.isHidden = true
-  //   }
-  //   return item
-  // })
+const changeIsHidden = (row: any) => {
+  let page = pagedArray.value
+  pagedArray.value = page.map((item: any) => {
+    if (row.id == item.id) {
+      item.isHidden = !item.isHidden
+    }
+    return item
+  })
+}
+const moveUp = (row: any) => {
+  const selectedIndex = headerDate.value.findIndex(
+    (item: any) => item.ids === row.ids,
+  )
+  if (selectedIndex > 0) {
+    const temp = headerDate.value[selectedIndex - 1]
+    headerDate.value.splice(
+      selectedIndex - 1,
+      1,
+      headerDate.value[selectedIndex],
+    )
+    headerDate.value.splice(selectedIndex, 1, temp)
+  }
+}
+const moveDown = (row: any) => {
+  const selectedIndex = headerDate.value.findIndex(
+    (item: any) => item.ids === row.ids,
+  )
+  if (selectedIndex >= 0 && selectedIndex < headerDate.value.length - 1) {
+    const temp = headerDate.value[selectedIndex + 1]
+    headerDate.value.splice(
+      selectedIndex + 1,
+      1,
+      headerDate.value[selectedIndex],
+    )
+    headerDate.value.splice(selectedIndex, 1, temp)
+  }
 }
 </script>
 
 <template>
   <div class="boxs-tip">
     <div class="tip">
-      <el-icon color="#409EFF" class="icon-info"><InfoFilled /></el-icon>
+      <el-icon color="#409EFF" class="icon-info">
+        <InfoFilled />
+      </el-icon>
       <span>
         你可以放心设置成自己方便的表头字段排序，该设置仅针对你自己的界面显示，不会影响其他人。
       </span>
@@ -44,7 +148,7 @@ const changeIsHidden = (row: any, $index: number) => {
   </div>
   <div class="btn">
     <el-button type="primary" plain @click="goBackOrder">返回</el-button>
-    <el-button type="primary">恢复默认</el-button>
+    <el-button type="primary" @click="goDefultData">恢复默认</el-button>
   </div>
   <el-table
     border
@@ -61,23 +165,37 @@ const changeIsHidden = (row: any, $index: number) => {
     <el-table-column label="字段名" prop="name"></el-table-column>
     <el-table-column label="所属分类" prop="sort"></el-table-column>
     <el-table-column label="操作" width="550">
-      <template #="{ row, $index }">
-        <el-button type="primary" plain class="btn-move">
-          <el-icon><Top /></el-icon>
+      <template #="{ row }">
+        <el-button type="primary" plain class="btn-move" @click="moveUp(row)">
+          <el-icon>
+            <Top />
+          </el-icon>
           上移
         </el-button>
-        <el-button type="primary" plain class="btn-move">
-          <el-icon><Bottom /></el-icon>
+        <el-button
+          type="primary"
+          plain
+          class="btn-move"
+          @click="moveDown(row)"
+          :disabled="$index === pagedArray.length - 1"
+        >
+          <el-icon>
+            <Bottom />
+          </el-icon>
           下移
         </el-button>
         <el-button
           type="primary"
           plain
           class="btn-move bg"
-          @click="changeIsHidden(row, $index)"
+          @click="changeIsHidden(row)"
         >
-          <el-icon v-if="!row.isHidden"><View /></el-icon>
-          <el-icon v-else><Hide /></el-icon>
+          <el-icon v-if="!row.isHidden">
+            <View />
+          </el-icon>
+          <el-icon v-else>
+            <Hide />
+          </el-icon>
           设为显示
         </el-button>
       </template>
@@ -102,6 +220,7 @@ const changeIsHidden = (row: any, $index: number) => {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .tip {
     width: 1540px;
     height: 30px;
@@ -109,9 +228,11 @@ const changeIsHidden = (row: any, $index: number) => {
     border-radius: 4px;
     display: flex;
     align-items: center;
+
     .icon-info {
       margin: 6px 17px 6px 11px;
     }
+
     span {
       font-weight: 400;
       font-size: 14px;
@@ -119,24 +240,30 @@ const changeIsHidden = (row: any, $index: number) => {
     }
   }
 }
+
 .btn {
   padding: 0 17px 24px 16px;
   display: flex;
   justify-content: space-between;
 }
+
 .btn-move {
   border: 0;
   margin-left: 24px;
+
   .el-icon {
     margin-right: 7px;
   }
+
   &.bg {
     color: #606677;
+
     &:hover {
       color: #fff;
     }
   }
 }
+
 .el-pagination {
   padding: 32px;
 }
