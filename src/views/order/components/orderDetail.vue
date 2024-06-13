@@ -6,6 +6,8 @@ import MaterialFlowInfo from './Detail/MaterialFlowInfo.vue'
 import equipmentInfo from './Detail/equipmentInfo.vue'
 import testRecord from './Detail/testRecord.vue'
 import Controls from './Detail/Controls.vue'
+import useLayoutSettingStore from '@/stores/modules/setting.ts'
+const useSettingStore = useLayoutSettingStore()
 </script>
 
 <template>
@@ -40,16 +42,18 @@ import Controls from './Detail/Controls.vue'
   <div class="box-line"></div>
   <div class="title-boxs">
     <div class="title-line"></div>
-    <div class="title-name">设备管理(2台)</div>
+    <div class="title-name">设备管理(1台)</div>
   </div>
   <equipmentInfo />
   <div class="box-line"></div>
-  <div class="title-boxs">
-    <div class="title-line"></div>
-    <div class="title-name">测试记录</div>
+  <div v-if="useSettingStore.showMode >= 4">
+    <div class="title-boxs">
+      <div class="title-line"></div>
+      <div class="title-name">测试记录</div>
+    </div>
+    <testRecord />
+    <div class="box-line"></div>
   </div>
-  <testRecord />
-  <div class="box-line"></div>
   <div class="title-boxs">
     <div class="title-line"></div>
     <div class="title-name">管理操作</div>

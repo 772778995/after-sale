@@ -1,7 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+
+</script>
 
 <template>
-  <el-scrollbar>
+  <el-scrollbar >
     <div class="scrollbar-flex-content">
       <ul v-for="item in 4" :key="item" class="scrollbar-demo-item">
         <li>
