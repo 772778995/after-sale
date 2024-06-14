@@ -1,5 +1,5 @@
 import { reactive, ref } from 'vue'
-import { tableData } from './orderData'
+// import { tableData } from './orderData'
 import type { FormProps } from 'element-plus'
 import useLayoutSettingStore from '@/stores/modules/setting'
 
@@ -25,57 +25,57 @@ const useOrder = () => {
   const currentPage = ref(1)
   const pageSize = ref(6)
   const labelPosition = ref<FormProps['labelPosition']>('left')
-  const hasCSV = (item: any) => {
-    switch (item.payStatus) {
-      case 0:
-        item.payStatus = '未支付'
-        break
-      case 1:
-        item.payStatus = '已支付'
-        break
-      default:
-        break
-    }
-    switch (item.status) {
-      case 0:
-        item.status = '待审核'
-        break
-      case 1:
-        item.status = '待收货(售后部)'
-        break
-      case 2:
-        item.status = '处理中'
-        break
-      case 3:
-        item.status = '测试中'
-        break
-      case 4:
-        item.status = '待寄出'
-        break
-      default:
-        break
-    }
-    switch (item.fastState) {
-      case 0:
-        item.fastState = '审核'
-        break
-      case 1:
-        item.fastState = '确认收货'
-        break
-      case 2:
-        item.fastState = '检测报价'
-        break
-      case 3:
-        item.fastState = '维修记录'
-        break
-      case 4:
-        item.fastState = '测试记录'
-        break
-      default:
-        item.fastState = '发货登记'
-        break
-    }
-  }
+  // const hasCSV = (item: any) => {
+  //   switch (item.payStatus) {
+  //     case 0:
+  //       item.payStatus = '未支付'
+  //       break
+  //     case 1:
+  //       item.payStatus = '已支付'
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   switch (item.status) {
+  //     case 0:
+  //       item.status = '待审核'
+  //       break
+  //     case 1:
+  //       item.status = '待收货(售后部)'
+  //       break
+  //     case 2:
+  //       item.status = '处理中'
+  //       break
+  //     case 3:
+  //       item.status = '测试中'
+  //       break
+  //     case 4:
+  //       item.status = '待寄出'
+  //       break
+  //     default:
+  //       break
+  //   }
+  //   switch (item.fastState) {
+  //     case 0:
+  //       item.fastState = '审核'
+  //       break
+  //     case 1:
+  //       item.fastState = '确认收货'
+  //       break
+  //     case 2:
+  //       item.fastState = '检测报价'
+  //       break
+  //     case 3:
+  //       item.fastState = '维修记录'
+  //       break
+  //     case 4:
+  //       item.fastState = '测试记录'
+  //       break
+  //     default:
+  //       item.fastState = '发货登记'
+  //       break
+  //   }
+  // }
   // 导出
   const handleExportCSV = () => {
     // let a = orderlable.value.map((item: any) => item.name)

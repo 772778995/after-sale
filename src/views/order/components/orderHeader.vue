@@ -108,7 +108,7 @@ const moveDown = (row: any) => {
     <el-table-column label="字段名" prop="name"></el-table-column>
     <el-table-column label="所属分类" prop="sort"></el-table-column>
     <el-table-column label="操作" width="550">
-      <template #="{ row }">
+      <template #="{ row, $index }">
         <el-button type="primary" plain class="btn-move" @click="moveUp(row)">
           <el-icon>
             <Top />
