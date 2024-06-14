@@ -59,13 +59,21 @@ export const constantRoute = [
     path: '/set',
     component: () => import('@/layout/index.vue'),
     name: 'Set',
-    redirect: '/set/personnel',
+    redirect: '/set/address',
     meta: {
       title: '系统设置',
       icon: set,
       active: setActive,
     },
     children: [
+      {
+        path: '/set/address',
+        component: () => import('@/views/set/address/index.vue'),
+        name: 'Address',
+        meta: {
+          title: '地址管理',
+        },
+      },
       {
         path: '/set/personnel',
         component: () => import('@/views/set/personnel/index.vue'),

@@ -18,6 +18,7 @@ const useOrder = () => {
     breakdown: '',
     date: '',
   })
+  const orderlable = ref<any>(useSettingStore.headerTitle)
   const selectIdArr = ref<any>([])
   const status = reactive(['全部', '未处理', '已处理'])
   const currentStatus = ref(0)
@@ -77,49 +78,34 @@ const useOrder = () => {
   }
   // 导出
   const handleExportCSV = () => {
-    let a = [
-      '订单号',
-      '支付状态',
-      '处理状态',
-      '订单来源',
-      '联系人姓名',
-      '收货人姓名',
-      '收货人手机',
-      '淘宝京东订单号',
-      '产品型号',
-      '快递单号',
-      '订单金额',
-      '下单时间',
-      '审核状态',
-    ]
-    let csv =
-      selectIdArr.value.length > 0
-        ? JSON.parse(JSON.stringify(selectIdArr.value)).map((item: any) => {
-            hasCSV(item)
-            return Object.values(item)
-          })
-        : JSON.parse(JSON.stringify(tableData)).map((item: any) => {
-            hasCSV(item)
-            return Object.values(item)
-          })
-    csv.unshift(a)
-    console.log(csv)
-
-    // 构造数据字符，换行需要用\r\n
-    let CsvString = csv.map((data: any) => data.join(',')).join('\r\n')
-    // 加上 CSV 文件头标识
-    CsvString =
-      'data:application/vnd.ms-excel;charset=utf-8,\uFEFF' +
-      encodeURIComponent(CsvString)
-    // 通过创建a标签下载
-    const link = document.createElement('a')
-    link.href = CsvString
-    // 对下载的文件命名
-    link.download = `订单列表.csv`
-    // 模拟点击下载
-    link.click()
-    // 移除a标签
-    link.remove()
+    // let a = orderlable.value.map((item: any) => item.name)
+    // let csv =
+    //   selectIdArr.value.length > 0
+    //     ? JSON.parse(JSON.stringify(selectIdArr.value)).map((item: any) => {
+    //         hasCSV(item)
+    //         return Object.values(item)
+    //       })
+    //     : JSON.parse(JSON.stringify(tableData)).map((item: any) => {
+    //         hasCSV(item)
+    //         return Object.values(item)
+    //       })
+    // csv.unshift(a)
+    // console.log(csv)
+    // // 构造数据字符，换行需要用\r\n
+    // let CsvString = csv.map((data: any) => data.join(',')).join('\r\n')
+    // // 加上 CSV 文件头标识
+    // CsvString =
+    //   'data:application/vnd.ms-excel;charset=utf-8,\uFEFF' +
+    //   encodeURIComponent(CsvString)
+    // // 通过创建a标签下载
+    // const link = document.createElement('a')
+    // link.href = CsvString
+    // // 对下载的文件命名
+    // link.download = `订单列表.csv`
+    // // 模拟点击下载
+    // link.click()
+    // // 移除a标签
+    // link.remove()
   }
   // 查找
   const handleFindData = () => {
@@ -166,6 +152,7 @@ const useOrder = () => {
   }
   return {
     formInline,
+    orderlable,
     status,
     currentStatus,
     currentPage,

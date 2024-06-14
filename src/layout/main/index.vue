@@ -49,7 +49,12 @@ const changeIcon = () => {
 
 <template>
   <div class="breadcrumb">
-    <img src="@/assets/images/icon-fold-btns.png" @click="changeIcon" />
+    <img
+      src="@/assets/images/icon-expand-btns.png"
+      v-if="LayoutSettingStore.fold"
+      @click="changeIcon"
+    />
+    <img src="@/assets/images/icon-fold-btns.png" v-else @click="changeIcon" />
     <div class="breadcrumb-box" ref="scrollContainer">
       <div
         class="breadcrumb-item"

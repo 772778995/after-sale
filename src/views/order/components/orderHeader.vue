@@ -1,67 +1,10 @@
 <script setup lang="ts">
 import { Bottom, Hide, InfoFilled, Top, View } from '@element-plus/icons-vue'
-// import { headerDate } from '../orderData'
+import { headerDates } from '../orderData'
 import useLayoutSettingStore from '@/stores/modules/setting'
 import { computed, ref } from 'vue'
 const useSettingStore = useLayoutSettingStore()
-const headerDate = ref<any>([
-  {
-    ids: 1,
-    id: 'A01',
-    name: '用户DI',
-    sort: '用户信息',
-    isHidden: false,
-  },
-  {
-    ids: 2,
-    id: 'A02',
-    name: '联系人电话',
-    sort: '用户信息',
-    isHidden: false,
-  },
-  {
-    ids: 3,
-    id: 'A03',
-    name: '用户昵称',
-    sort: '订单信息',
-    isHidden: false,
-  },
-  {
-    ids: 4,
-    id: 'A04',
-    name: '售后订单号',
-    sort: '物流信息',
-    isHidden: false,
-  },
-  {
-    ids: 5,
-    id: 'A05',
-    name: '快递单号',
-    sort: '用户信息',
-    isHidden: false,
-  },
-  {
-    ids: 6,
-    id: 'A06',
-    name: '用户昵称',
-    sort: '订单信息',
-    isHidden: false,
-  },
-  {
-    ids: 7,
-    id: 'A07',
-    name: '售后订单号',
-    sort: '物流信息',
-    isHidden: false,
-  },
-  {
-    ids: 8,
-    id: 'A08',
-    name: '快递单号',
-    sort: '用户信息',
-    isHidden: false,
-  },
-])
+const headerDate = ref<any>(headerDates)
 const goBackOrder = () => {
   useSettingStore.headerTitle = headerDate.value.filter(
     (item: any) => item.isHidden != true,

@@ -6,16 +6,17 @@ import MaterialFlowInfo from './Detail/MaterialFlowInfo.vue'
 import equipmentInfo from './Detail/equipmentInfo.vue'
 import testRecord from './Detail/testRecord.vue'
 import Controls from './Detail/Controls.vue'
+// import orderFlow from './Detail/orderFlow.vue'
 import useLayoutSettingStore from '@/stores/modules/setting.ts'
 const useSettingStore = useLayoutSettingStore()
 </script>
 
 <template>
-  <div class="title-boxs">
+  <!-- <div class="title-boxs">
     <div class="title-line"></div>
     <div class="title-name">订单流程</div>
   </div>
-  <div>456</div>
+  <orderFlow /> -->
   <div class="title-boxs">
     <div class="title-line"></div>
     <div class="title-name">订单信息</div>

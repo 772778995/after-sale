@@ -10,6 +10,7 @@ import {
 import useOrder from '../orderList'
 const {
   formInline,
+  orderlable,
   status,
   currentStatus,
   currentPage,
@@ -184,18 +185,18 @@ const {
       >
         <el-table-column type="selection"></el-table-column>
         <el-table-column
-          label="订单号"
-          prop="orderId"
-          width="100"
-        ></el-table-column>
-        <el-table-column label="支付状态" width="100">
-          <template #="{ row }">
+          v-for="item in orderlable"
+          :key="item.ids"
+          :label="item.name"
+          :prop="item.label"
+          :width="item.width"
+          show-overflow-tooltip
+        >
+          <template #="{ row }" v-if="item.label == 'payStatus'">
             <p v-if="row.payStatus == 1" class="pay-status">已支付</p>
             <p v-else class="pay-status no">未支付</p>
           </template>
-        </el-table-column>
-        <el-table-column label="处理状态" width="120">
-          <template #="{ row }">
+          <template #="{ row }" v-if="item.label == 'status'">
             <p v-if="row.status == 0" class="state shenhe">待审核</p>
             <p v-else-if="row.status == 1" class="state shouhuo">
               待收货(售后部)
@@ -205,51 +206,6 @@ const {
             <p v-else class="state jichu">待寄回</p>
           </template>
         </el-table-column>
-        <el-table-column
-          label="订单来源"
-          prop="origin"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          label="联系人姓名"
-          prop="name"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          label="收货人姓名"
-          prop="nameshou"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          label="收货人手机"
-          prop="phone"
-          width="130"
-        ></el-table-column>
-        <el-table-column
-          label="淘宝京东订单号"
-          width="200"
-          prop="id"
-        ></el-table-column>
-        <el-table-column
-          label="产品型号"
-          prop="mode"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          label="快递单号"
-          prop="idk"
-          width="200"
-        ></el-table-column>
-        <el-table-column
-          label="订单金额"
-          prop="money"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          label="下单时间"
-          prop="date"
-          width="150"
-        ></el-table-column>
         <el-table-column label="订单操作" fixed="right" width="180px">
           <template #="{ row }">
             <el-button
