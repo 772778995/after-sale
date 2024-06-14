@@ -52,6 +52,7 @@ const moveUp = (row: any) => {
   const selectedIndex = headerDate.value.findIndex(
     (item: any) => item.ids === row.ids,
   )
+  console.log()
   if (selectedIndex > 0) {
     const temp = headerDate.value[selectedIndex - 1]
     headerDate.value.splice(
@@ -75,6 +76,10 @@ const moveDown = (row: any) => {
     )
     headerDate.value.splice(selectedIndex, 1, temp)
   }
+}
+const isDown = (row) => {
+  const findIndex = headerDate.value.findIndex((item) => item.ids === row.ids)
+  return findIndex === headerDate.value.length - 1
 }
 </script>
 
@@ -109,7 +114,13 @@ const moveDown = (row: any) => {
     <el-table-column label="所属分类" prop="sort"></el-table-column>
     <el-table-column label="操作" width="550">
       <template #="{ row, $index }">
-        <el-button type="primary" plain class="btn-move" @click="moveUp(row)">
+        <el-button
+          type="primary"
+          plain
+          class="btn-move"
+          @click="moveUp(row)"
+          :disabled="$index === 0 && currentPage === 1"
+        >
           <el-icon>
             <Top />
           </el-icon>
@@ -120,7 +131,7 @@ const moveDown = (row: any) => {
           plain
           class="btn-move"
           @click="moveDown(row)"
-          :disabled="$index === pagedArray.length - 1"
+          :disabled="isDown(row)"
         >
           <el-icon>
             <Bottom />
