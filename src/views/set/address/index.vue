@@ -106,7 +106,7 @@ const handleEditAddress = (row: any) => {
         <el-icon @click="close"><Close /></el-icon>
       </div>
     </template>
-    <el-form label-position="left" :model="formLabelAddress">
+    <el-form label-position="left" :model="formLabelAddress" class="forms">
       <el-form-item label="标题" label-width="110">
         <el-input
           v-model="formLabelAddress.title"
@@ -177,9 +177,8 @@ const handleEditAddress = (row: any) => {
 .el-form--label-left .el-form-item__labe {
   padding-left: 20px;
 }
-.el-dialog__body {
-  display: flex;
-  justify-content: center;
+.forms {
+  padding-left: 20px;
 }
 .my-header {
   margin-bottom: 30px;
