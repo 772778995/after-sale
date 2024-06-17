@@ -38,9 +38,9 @@ export const constantRoute = [
     },
     children: [
       {
-        path: '/news/chart',
-        component: () => import('@/views/news/chat/index.vue'),
-        name: 'Chart',
+        path: '/news/chartLayout',
+        component: () => import('@/views/news/chartLayout/index.vue'),
+        name: 'ChartLayout',
         meta: {
           title: '会话',
         },
