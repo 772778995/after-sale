@@ -152,7 +152,7 @@ const userName = ref('')
     }
   }
 }
-::v-deep.inputName .el-input__wrapper {
+:deep(.inputName .el-input__wrapper) {
   background-color: #fff;
   border: none !important;
   box-shadow: none !important;

@@ -111,10 +111,10 @@ const inputOrderId = ref()
     }
   }
 }
-::v-deep .el-input-group__append {
+:deep(.el-input-group__append) {
   padding: 0 !important;
 }
-::v-deep .el-input__wrapper {
+:deep(.el-input__wrapper) {
   background: #f7f7f7 !important;
 }
 </style>

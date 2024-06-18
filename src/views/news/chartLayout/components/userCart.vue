@@ -66,7 +66,7 @@ const tabs=reactive([
         
      }
 }
-::v-deep .el-form--label-left .el-form-item__label {
+:deep(.el-form--label-left .el-form-item__label) {
   padding-left: 24px !important;
 }
 </style>

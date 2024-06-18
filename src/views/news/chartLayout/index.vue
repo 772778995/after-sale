@@ -37,7 +37,7 @@ const tabs=reactive([
             </p>
           </template>
           <el-scrollbar class="lists">
-            <List :content="item.title"  />
+            <List :content="item.title" v-if="activeName == 'first'" />
           </el-scrollbar> 
           
         </el-tab-pane>
@@ -87,13 +87,13 @@ const tabs=reactive([
     // background-color: pink;
   }
 }
-::v-deep.inputs .el-input__wrapper {
+:deep(.inputs .el-input__wrapper) {
   background: #f5f5f5 !important;
   border-radius: 20px !important;
   border: none !important;
   box-shadow: none !important;
 }
-::v-deep  .el-tabs__header{
+:deep( .el-tabs__header){
     height: 100%;
     display: flex;
     align-items: center;
@@ -110,7 +110,7 @@ const tabs=reactive([
         margin: 0;
        }
     }
-   ::v-deep .el-tabs--top .el-tabs__item.is-top:nth-child(2){
+   :deep(.el-tabs--top .el-tabs__item.is-top:nth-child(2)){
     margin: 0 10px;
         margin-left: 20px;
     }   

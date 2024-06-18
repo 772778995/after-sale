@@ -578,35 +578,35 @@ const totelMoney = computed(() => {
   }
 }
 /* 在这里添加上面的CSS样式 */
-::v-deep .no-border .el-textarea__inner {
+:deep(.no-border .el-textarea__inner) {
   border: none;
   border-radius: 0;
   box-shadow: none;
 }
-::v-deep .no-borders .el-textarea__inner {
+:deep(.no-borders .el-textarea__inner) {
   border: none;
   border-radius: 0;
   box-shadow: none;
   text-align: center;
 }
-::v-deep .el-radio__input.is-checked + .el-radio__label {
+:deep(.el-radio__input.is-checked + .el-radio__label) {
   color: #071921;
 }
-::v-deep .el-select .el-select__wrapper {
+:deep(.el-select .el-select__wrapper) {
   background: #f7f7f7;
 }
-::v-deep .el-upload--picture-card {
+:deep(.el-upload--picture-card) {
   width: 60px;
   height: 60px;
 }
-::v-deep .el-upload-list--picture-card .el-upload-list__item {
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
   width: 60px;
   height: 60px;
 }
-::v-deep .uploadList .el-upload-list__item.is-success:focus:not(:hover) {
+:deep(.uploadList .el-upload-list__item.is-success:focus:not(:hover)) {
   display: none !important;
 }
-::v-deep .el-upload-list__item.is-success .el-upload-list__item-status-label {
+:deep(.el-upload-list__item.is-success .el-upload-list__item-status-label) {
   display: none !important;
 }
 </style>

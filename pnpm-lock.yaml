@@ -14,6 +14,12 @@ dependencies:
   element-plus:
     specifier: ^2.7.3
     version: 2.7.3(vue@3.4.27)
+  nprogress:
+    specifier: ^0.2.0
+    version: 0.2.0
+  open-im-sdk-wasm:
+    specifier: 3.5.3-alpha.5
+    version: 3.5.3-alpha.5
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.4.5)(vue@3.4.27)
@@ -3372,6 +3378,10 @@ packages:
       path-key: 4.0.0
     dev: true
 
+  /nprogress@0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
+    dev: false
+
   /nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
     dependencies:
@@ -3437,6 +3447,11 @@ packages:
     dependencies:
       mimic-fn: 4.0.0
     dev: true
+
+  /open-im-sdk-wasm@3.5.3-alpha.5:
+    resolution: {integrity: sha512-Oyx7KKeWdiBPxATbhOmMlz2Xz64Lp/fCggXzRmMJXBQdnwU1gurpJpEhvcC72KRFK3k3JzB+oI1B/ibA8MNRXg==}
+    engines: {node: '>=12.0'}
+    dev: false
 
   /optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}

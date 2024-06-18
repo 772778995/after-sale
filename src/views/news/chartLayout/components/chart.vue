@@ -191,7 +191,7 @@ const textarea = ref('')
     width: 400px;
   }
 }
-::v-deep .no-border .el-textarea__inner {
+:deep(.no-border .el-textarea__inner) {
   border: none;
   border-radius: 0;
   box-shadow: none;
