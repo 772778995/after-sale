@@ -9,14 +9,12 @@ const activeName = ref('first')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
-const tabs=reactive([
-    {id:1,name:'first',title:'正在接待',nums:'6'},
-    {id:2,name:'second',title:'等待接待',nums:'2'},
-    {id:3,name:'third',title:'历史接待',nums:'3'},
+const tabs = reactive([
+  { id: 1, name: 'first', title: '正在接待', nums: '6' },
+  { id: 2, name: 'second', title: '等待接待', nums: '2' },
+  { id: 3, name: 'third', title: '历史接待', nums: '3' },
 ])
-onMounted(()=>{
-
-})
+onMounted(() => {})
 </script>
 
 <template>
@@ -34,20 +32,19 @@ onMounted(()=>{
       <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane :name="item.name" v-for="item in tabs" :key="item.id">
           <template #label>
-            <p class="custom-tabs-label">
-              <p>{{item.title}}</p>
-              <p class="tag-num" v-if="item.nums">({{item.nums}}人)</p>
-            </p>
+            <div class="custom-tabs-label">
+              <p>{{ item.title }}</p>
+              <p class="tag-num" v-if="item.nums">({{ item.nums }}人)</p>
+            </div>
           </template>
           <el-scrollbar class="lists">
             <List :content="item.title" v-if="activeName == 'first'" />
-          </el-scrollbar> 
-          
+          </el-scrollbar>
         </el-tab-pane>
       </el-tabs>
     </div>
     <div class="layout-right">
-       <Chart />
+      <Chart />
     </div>
   </div>
 </template>
@@ -71,19 +68,17 @@ onMounted(()=>{
         height: 40px;
       }
     }
-    .demo-tabs{
-        width: 100%;
-        height: 56px;
-        .tag-num{
-            color: #606677;
-             padding: 10px 0;
-        }
-
-
+    .demo-tabs {
+      width: 100%;
+      height: 56px;
+      .tag-num {
+        color: #606677;
+        padding: 10px 0;
+      }
     }
-    .lists{
-        height: 566px;
-        }
+    .lists {
+      height: 566px;
+    }
   }
   .layout-right {
     flex: 1;
@@ -96,26 +91,25 @@ onMounted(()=>{
   border: none !important;
   box-shadow: none !important;
 }
-:deep( .el-tabs__header){
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+:deep(.el-tabs__header) {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin: 0;
+  .el-tabs__nav-wrap {
     width: 100%;
+  }
+  .el-tabs__item {
+    height: 100%;
+    text-align: center;
+    padding: 0 34px;
     margin: 0;
-    .el-tabs__nav-wrap{
-        width: 100%;
-    }
-    .el-tabs__item{
-        height: 100%;
-        text-align: center;
-        padding: 0 34px;
-        margin: 0;
-       }
-    }
-   :deep(.el-tabs--top .el-tabs__item.is-top:nth-child(2)){
-    margin: 0 10px;
-        margin-left: 20px;
-    }   
- 
+  }
+}
+:deep(.el-tabs--top .el-tabs__item.is-top:nth-child(2)) {
+  margin: 0 10px;
+  margin-left: 20px;
+}
 </style>
