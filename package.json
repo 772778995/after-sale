@@ -25,7 +25,7 @@
     "axios": "^1.7.2",
     "element-plus": "^2.7.3",
     "nprogress": "^0.2.0",
-    "open-im-sdk-wasm": "3.5.3-alpha.5",
+    "open-im-sdk-wasm": "^3.1.0",
     "pinia": "^2.1.7",
     "uuid": "^10.0.0",
     "vue": "^3.4.21",

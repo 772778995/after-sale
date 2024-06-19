@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import userCart from './userCart.vue'
+import { getSDK } from 'open-im-sdk-wasm'
+const IMSDK = getSDK()
 const quickValue = ref('')
 const message = reactive([
   {
@@ -21,6 +23,34 @@ const message = reactive([
   },
 ])
 const textarea = ref('')
+// const text = ref()
+const handleInput = () => {}
+// IMSDK.on(CbEvents.OnRecvNewMessages, ({ data: messages }) => {
+//   // 收到新消息
+//   console.log({ data: messages }, '----------')
+// })
+
+const sendMessage = async () => {
+  IMSDK.getLoginStatus()
+    .then(({ data }) => {
+      // data: 登录状态LoginStatus
+      console.log(data, '登录状态LoginStatus----')
+    })
+    .catch(({ errCode, errMsg }) => {
+      // 调用失败
+      console.log({ errCode, errMsg }, '登录状态失败状态----')
+    })
+
+  IMSDK.createTextMessage('创建一条消息text6363')
+    .then(({ data }) => {
+      // 调用成功
+      console.log(data, '创建消息成功369')
+    })
+    .catch(({ errCode, errMsg }) => {
+      // 调用失败
+      console.log(errCode, errMsg, '创建失败-----')
+    })
+}
 </script>
 
 <template>
@@ -77,10 +107,11 @@ const textarea = ref('')
             placeholder="请输入内容"
             :rows="4"
             type="textarea"
+            @change="handleInput"
           />
           <div class="send-boxs">
             <span>{{ textarea.length }}/300字</span>
-            <el-button type="primary">发送</el-button>
+            <el-button type="primary" @click="sendMessage">发送</el-button>
           </div>
         </div>
       </div>

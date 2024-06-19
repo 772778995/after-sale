@@ -1,31 +1,32 @@
 import { defineStore } from 'pinia'
 import { constantRoute } from '@/router/routes'
-import { GET_TOKEN, SET_TOKEN } from '@/utils/token'
+import { GET_TOKEN, REMOVE_TOKEN, SET_TOKEN } from '@/utils/token'
 import { reqGetUserToken, reqGetUsers, reqLogin } from '@/api/user'
-import { getSDK } from 'open-im-sdk-wasm'
-const IMSDK = getSDK()
-const API_URL = 'https://test-mp.midiplus.com/api/v2/im/open_im'
-const WS_URL = 'wss://ims.midiplus.com/msg_gateway'
+import { API_URL, WS_URL } from '@/utils/imURL'
+import { getSDK, CbEvents } from 'open-im-sdk-wasm'
+const IMSDK = getSDK({
+  coreWasmPath: './openIM.wasm',
+  sqlWasmPath: '/sql-wasm.wasm',
+  debug: true, // false不打印日志
+})
+console.log(IMSDK, '**************')
 let useUserStore = defineStore('User', {
   state: () => {
     return {
       menuRoutes: constantRoute,
       indexPath: '',
       addRouteTag: [] as any,
-      token_type: '',
       token: GET_TOKEN(),
       user: {} as any,
       imToken: {} as any,
-      operationID: '',
     }
   },
   actions: {
     async userLogin(data) {
       await reqLogin(data)
         .then((res) => {
-          this.token_type = res.token_type
-          this.token = res.access_token
-          SET_TOKEN(res.access_token)
+          this.token = `${res.token_type} ${res.access_token}`
+          SET_TOKEN(`${res.token_type} ${res.access_token}`)
           return 'ok'
         })
         .catch((err) => {
@@ -45,18 +46,33 @@ let useUserStore = defineStore('User', {
         })
     },
     getIMLogin() {
+      IMSDK.on(CbEvents.OnConnecting, () => {
+        // 连接中
+        console.log('连接中----')
+      })
+      IMSDK.on(CbEvents.OnConnectSuccess, () => {
+        console.log('连接成功----')
+      })
+      IMSDK.on(CbEvents.OnConnectFailed, ({ errCode, errMsg }) => {
+        console.log({ errCode, errMsg }, '连接失败状态----')
+      })
+      IMSDK.on(CbEvents.OnUserTokenExpired, ({ data }) => {
+        console.log(data, '连接token过期状态----')
+      })
+
       const config = {
         userID: this.imToken.im_user_id,
         token: this.imToken.im_token,
         platformID: 5,
         apiAddr: API_URL,
         wsAddr: WS_URL,
+        logLevel: 5,
       }
+      console.log(config)
       IMSDK.login(config)
-        .then(() => {
-          this.getAllConversationList()
+        .then((e) => {
           // 登录成功
-          console.log('登录成功**************')
+          console.log('登录成功**************', e)
         })
         .catch(({ errCode, errMsg }) => {
           // 登录失败
@@ -72,6 +88,20 @@ let useUserStore = defineStore('User', {
         .catch(({ errCode, errMsg }) => {
           // 调用失败
           console.log(errCode, errMsg, '调用失败**************')
+        })
+    },
+    userLogout() {
+      this.token = ''
+      this.user = {}
+      this.imToken = {}
+      REMOVE_TOKEN()
+      IMSDK.logout()
+        .then(() => {
+          // 退出登录成功
+        })
+        .catch(({ errCode, errMsg }) => {
+          // 调用失败
+          console.log(errCode, errMsg, '退出失败**************')
         })
     },
   },

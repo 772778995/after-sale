@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import List from './components/list.vue'
@@ -14,6 +14,9 @@ const tabs=reactive([
     {id:2,name:'second',title:'等待接待',nums:'2'},
     {id:3,name:'third',title:'历史接待',nums:'3'},
 ])
+onMounted(()=>{
+
+})
 </script>
 
 <template>

@@ -18,8 +18,8 @@ dependencies:
     specifier: ^0.2.0
     version: 0.2.0
   open-im-sdk-wasm:
-    specifier: 3.5.3-alpha.5
-    version: 3.5.3-alpha.5
+    specifier: ^3.1.0
+    version: 3.5.2
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.4.5)(vue@3.4.27)
@@ -3448,8 +3448,8 @@ packages:
       mimic-fn: 4.0.0
     dev: true
 
-  /open-im-sdk-wasm@3.5.3-alpha.5:
-    resolution: {integrity: sha512-Oyx7KKeWdiBPxATbhOmMlz2Xz64Lp/fCggXzRmMJXBQdnwU1gurpJpEhvcC72KRFK3k3JzB+oI1B/ibA8MNRXg==}
+  /open-im-sdk-wasm@3.5.2:
+    resolution: {integrity: sha512-qBAf/UVp8QWLJU47MiX4AlVkt7snD7vCD50Ixmb4LehbWUZ96x3Se56sDj/MwR3Hr0sqcgnCESrCLfnfUMg0rw==}
     engines: {node: '>=12.0'}
     dev: false
 

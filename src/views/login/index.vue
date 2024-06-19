@@ -7,7 +7,7 @@ const useStore = useUserStore()
 let $router = useRouter()
 let $route = useRoute()
 const loginForm = reactive({
-  login: '13999999999',
+  login: '13777777777',
   verifiable_code: '111111',
 })
 const handleLogin = () => {

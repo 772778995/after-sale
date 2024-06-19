@@ -6,7 +6,6 @@ const useStore = useUserStore(pinia)
 nprogress.configure({ showSpinner: false })
 // 全局前置守卫[项目当中任意路由切换都回触发的钩子]
 router.beforeEach(async (to, from, next) => {
-  console.log(from)
   // to :你将要访问那个路由
   // from:你从那个路由而来
   // next：路由的放行函数
@@ -28,11 +27,12 @@ router.beforeEach(async (to, from, next) => {
             // 万一：刷新的时候是异步路由，有可能获取到用户信息，异步路由还没有加载完毕，会出现空白效果
             next({ ...to })
           })
-          .catch(async () => {
+          .catch(async (err) => {
+            console.error(err)
             // token 过期  退出登录
             // 用户手动更改token
-            //   await useStore.userLogout()
-            //   next({ path: '/login', query: { redirect: to.path } })
+            useStore.userLogout()
+            next({ path: '/login', query: { redirect: to.path } })
           })
       }
     }

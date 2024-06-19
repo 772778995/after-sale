@@ -10,7 +10,7 @@ let request = axios.create({
 request.interceptors.request.use((config) => {
   const useStore = useUserStore()
   if (useStore.token) {
-    config.headers.Authorization = `${useStore.token_type} ${useStore.token}`
+    config.headers.Authorization = useStore.token
   }
   return config
 })
