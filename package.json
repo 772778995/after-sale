@@ -22,11 +22,15 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@jlongster/sql.js": "^1.6.7",
+    "absurd-sql-optimized": "^0.0.1",
     "axios": "^1.7.2",
     "element-plus": "^2.7.3",
     "nprogress": "^0.2.0",
     "open-im-sdk-wasm": "^3.1.0",
     "pinia": "^2.1.7",
+    "rpc-shooter": "^0.0.14",
+    "squel": "^5.13.0",
     "uuid": "^10.0.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
