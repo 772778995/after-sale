@@ -27,6 +27,10 @@ export const constantRoute = [
     ],
   },
   {
+    path: '/demo',
+    component: () => import('@/views/demo/Demo.vue'),
+  },
+  {
     path: '/news',
     component: () => import('@/layout/index.vue'),
     name: 'News',
