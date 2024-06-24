@@ -93,7 +93,10 @@ const handeleForgetPwd = () => {
       </el-button>
     </div>
   </div>
-  <ResetPwd :dialogVisible="centerDialogVisible" @update-visible="handeleForgetPwd" />
+  <ResetPwd
+    :dialogVisible="centerDialogVisible"
+    @update-visible="handeleForgetPwd"
+  />
 </template>
 
 <style scoped lang="scss">

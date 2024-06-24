@@ -595,18 +595,18 @@ const totelMoney = computed(() => {
 :deep(.el-select .el-select__wrapper) {
   background: #f7f7f7;
 }
-:deep( .el-upload--picture-card ){
+:deep(.el-upload--picture-card) {
   width: 60px;
   height: 60px;
 }
-:deep( .el-upload-list--picture-card .el-upload-list__item ){
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
   width: 60px;
   height: 60px;
 }
-:deep( .uploadList .el-upload-list__item.is-success:focus:not(:hover) ){
+:deep(.uploadList .el-upload-list__item.is-success:focus:not(:hover)) {
   display: none !important;
 }
-:deep( .el-upload-list__item.is-success .el-upload-list__item-status-label ){
+:deep(.el-upload-list__item.is-success .el-upload-list__item-status-label) {
   display: none !important;
 }
 </style>

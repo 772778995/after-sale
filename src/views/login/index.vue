@@ -28,7 +28,7 @@
 import LoginForm from './components/loginForm.vue'
 import RegisterForm from './components/registerForm.vue'
 import useLayoutSettingStore from '@/stores/modules/setting'
-const useSettingStore=useLayoutSettingStore()
+const useSettingStore = useLayoutSettingStore()
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const useSettingStore=useLayoutSettingStore()
   <div class="login-container">
     <div class="container-boxs">
       <LoginForm v-if="useSettingStore.loginStatusShow" />
-      <RegisterForm v-else/>
+      <RegisterForm v-else />
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ const useSettingStore=useLayoutSettingStore()
     border-radius: 4px;
   }
 }
-:deep(.el-form-item){
+:deep(.el-form-item) {
   margin-bottom: 30px;
 }
 :deep(.el-input__wrapper) {

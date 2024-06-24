@@ -6,8 +6,8 @@ const registerForm = reactive({
   phone: '',
   verifiable_code: '',
 })
-const handleLoginPage=()=>{
-    useSettingStore.loginStatusShow=true
+const handleLoginPage = () => {
+  useSettingStore.loginStatusShow = true
 }
 </script>
 
@@ -58,7 +58,7 @@ const handleLoginPage=()=>{
           class="register-btns"
           @click="handleLoginPage"
         >
-        直接登录
+          直接登录
         </el-button>
       </div>
     </div>
@@ -96,7 +96,7 @@ const handleLoginPage=()=>{
       height: 53px;
       color: #a9a9af;
       font-size: 18px;
-      .register-btns{
+      .register-btns {
         font-size: 18px;
       }
     }

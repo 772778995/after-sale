@@ -109,7 +109,7 @@ const handleSubmit = () => {
   border-radius: 4px 4px 4px 4px;
   margin-left: 240px;
 }
-:deep( .el-radio__input.is-checked + .el-radio__label) {
+:deep(.el-radio__input.is-checked + .el-radio__label) {
   color: #071921;
 }
 </style>
