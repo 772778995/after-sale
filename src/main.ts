@@ -9,6 +9,7 @@ import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import '@/styles/index.scss'
 import pinia from './stores'
+import './permission'
 const app = createApp(App)
 
 app.use(pinia)

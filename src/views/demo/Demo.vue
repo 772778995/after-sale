@@ -17,9 +17,9 @@ IMSDK.on(CbEvents.OnUserTokenExpired, () => {
 })
 
 IMSDK.login({
-  userID: 'mp_test_44',
+  userID: 'mp_test_7',
   token:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtcF90ZXN0XzQ0IiwiUGxhdGZvcm1JRCI6NSwiZXhwIjoxNzI2NTU1NDA3LCJuYmYiOjE3MTg3NzkxMDcsImlhdCI6MTcxODc3OTQwN30.CpZHBzJ9LIZLEkyx3_yZ_A_eziX2kIOeDnSUheztPP4',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJtcF90ZXN0XzciLCJQbGF0Zm9ybUlEIjo1LCJleHAiOjE3MjY3MzAyMTAsIm5iZiI6MTcxODk1MzkxMCwiaWF0IjoxNzE4OTU0MjEwfQ.uEw5TMlDF83kUzpivbffKkbpnxek4150mGyMEFMgYSE',
   platformID: 5,
   apiAddr: 'https://test-mp.midiplus.com/api/v2/im/open_im',
   wsAddr: 'wss://ims.midiplus.com/msg_gateway',
