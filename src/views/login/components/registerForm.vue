@@ -118,7 +118,7 @@ const handleRegisterBtns = async () => {
     .catch((err) => {
       ElMessage({
         type: 'error',
-        message: err.message?err.message:err[0],
+        message: err.message ? err.message : err[0],
       })
     })
 }

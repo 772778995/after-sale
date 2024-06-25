@@ -59,7 +59,7 @@ const handeleForgetPwd = () => {
   console.log(centerDialogVisible.value)
 }
 const validatorLogin = (rule: any, value: any, callback: any) => {
-  console.log(rule,typeof value === 'string')
+  console.log(rule, typeof value === 'string')
   if (value?.toString().trim().length > 0) {
     if (/^1[3-9]\d{9}$/.test(value)) {
       callback()

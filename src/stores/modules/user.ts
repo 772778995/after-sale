@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia'
 import { constantRoute } from '@/router/routes'
 import { GET_TOKEN, REMOVE_TOKEN, SET_TOKEN } from '@/utils/token'
-import {
-  reqGetUserToken,
-  reqGetUsers,
-  reqLogin,
-} from '@/api/user'
+import { reqGetUserToken, reqGetUsers, reqLogin } from '@/api/user'
 import { getSDK } from '@/utils/open-im-sdk-wasm'
 import useChartStore from './chart'
 const IMSDK = getSDK('./openIM.wasm')

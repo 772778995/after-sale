@@ -13,5 +13,5 @@ export interface registerData {
   password?: string
   verifiable_code: string
   verifiable_type?: string
-  relName?:string
+  relName?: string
 }

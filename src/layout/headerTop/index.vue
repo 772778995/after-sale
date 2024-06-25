@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import useUserStore from '@/stores/modules/user'
-const useStore=useUserStore()
+const useStore = useUserStore()
 </script>
 
 <template>
@@ -20,7 +20,11 @@ const useStore=useUserStore()
           <div class="header-right">
             <div class="user-info">
               <img
-                :src="useStore.user.avatar.url?useStore.user.avatar.url:'@/assets/images/default_unknow@2x.png'"
+                :src="
+                  useStore.user.avatar.url
+                    ? useStore.user.avatar.url
+                    : '@/assets/images/default_unknow@2x.png'
+                "
                 class="user-avater"
               />
               <span class="user-name">{{ useStore.user.name }}</span>
@@ -30,7 +34,7 @@ const useStore=useUserStore()
                 class="box-item"
                 effect="light"
                 content="退出登录"
-                placement="bottom" 
+                placement="bottom"
               >
                 <img src="@/assets/images/logout-btns.png" class="logout-img" />
               </el-tooltip>

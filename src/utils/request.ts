@@ -7,14 +7,13 @@ let request = axios.create({
   timeout: 5000,
 })
 request.interceptors.request.use((config) => {
-
   const useStore = useUserStore()
   if (useStore.token) {
     config.headers.Authorization = useStore.token
-  }else{
-    config.headers.Accept= "application/json"
-    config.headers.version="4.3.0"
-    config.headers.systemType="wx"
+  } else {
+    config.headers.Accept = 'application/json'
+    config.headers.version = '4.3.0'
+    config.headers.systemType = 'wx'
   }
   return config
 })
