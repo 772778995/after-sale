@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {ref } from 'vue'
+import useChartStore from '@/stores/modules/chart'
+import { formatConversionTime } from '@/utils/im'
 const userName = ref('')
+const { info,currentConversation } = useChartStore()
 const editName = (row: any) => {
   console.log(row)
 }
@@ -22,13 +25,17 @@ const editName = (row: any) => {
         />
       </template>
     </el-form-item>
-    <el-form-item label="昵称：">张小花</el-form-item>
-    <el-form-item label="ID：">525998825</el-form-item>
-    <el-form-item label="手机号：">13512345678</el-form-item>
-    <el-form-item label="注册时间：">2020-02-15</el-form-item>
-    <el-form-item label="最后对话：">2024-05-15 10:17</el-form-item>
+    <el-form-item label="昵称：">{{ info.name }}</el-form-item>
+    <el-form-item label="ID：">{{ info.uuid }}</el-form-item>
+    <el-form-item label="手机号：">{{ info.phone }}</el-form-item>
+    <el-form-item label="注册时间：">
+      {{ formatConversionTime(info.created_at) }}
+    </el-form-item>
+    <el-form-item label="最后对话：">
+      {{ formatConversionTime(currentConversation.latestMsgSendTime) }}
+    </el-form-item>
   </el-form>
-  <div class="cart-list">
+  <!-- <div class="cart-list">
     <div class="cart-title">
       <div class="title-line"></div>
       <div class="title">他的维修订单</div>
@@ -83,7 +90,7 @@ const editName = (row: any) => {
         <p class="li-content">></p>
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <style scoped lang="scss">

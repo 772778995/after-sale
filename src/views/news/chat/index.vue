@@ -1,22 +1,32 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import List from './components/list.vue'
 import Chart from './components/chart.vue'
 import useChartStore from '@/stores/modules/chart'
-
+import { getSDK } from '@/utils/open-im-sdk-wasm'
+import { CbEvents } from '@/utils/open-im-sdk-wasm/constant'
+const IMSDK = getSDK('./openIM.wasm')
 const searchContent = ref('')
 const activeName = ref('first')
 const useChart = useChartStore()
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
+onMounted(()=>{
+  // useChart.IMLogin()
+})
 const tabs = reactive([
-  { id: 1, name: 'first', title: '正在接待', nums: '6' },
-  { id: 2, name: 'second', title: '等待接待', nums: '2' },
-  { id: 3, name: 'third', title: '历史接待', nums: '3' },
+  { id: 1, name: 'first', title: '正在接待', nums: useChart.conversationList.length },
+  { id: 2, name: 'second', title: '等待接待', nums: '0' },
+  { id: 3, name: 'third', title: '历史接待', nums: '0' },
 ])
+IMSDK.on(CbEvents.OnRecvNewMessages, ({ data: messages }) => {
+  // 收到新消息
+  useChart.getAllConversationList()
+  console.log({ data: messages }, '收到新消息----------')
+})
 </script>
 
 <template>
@@ -36,7 +46,7 @@ const tabs = reactive([
           <template #label>
             <div class="custom-tabs-label">
               <p>{{ item.title }}</p>
-              <p class="tag-num" v-if="item.nums">({{ item.nums }}人)</p>
+              <p class="tag-num" >({{ item.nums }}人)</p>
             </div>
           </template>
           <el-scrollbar class="lists">

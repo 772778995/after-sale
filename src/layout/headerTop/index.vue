@@ -1,6 +1,20 @@
 <script setup lang="ts">
 import useUserStore from '@/stores/modules/user'
+import { ref } from 'vue'
+import { ElNotification } from 'element-plus'
+import { useRouter } from 'vue-router'
+let $router = useRouter()
 const useStore = useUserStore()
+const logoutVisible = ref(false)
+const logout = () => {
+  logoutVisible.value = false
+  useStore.userLogout()
+      $router.push({ path: '/login' })
+      ElNotification({
+        type: 'success',
+        message: '退出成功',
+      })
+}
 </script>
 
 <template>
@@ -21,7 +35,7 @@ const useStore = useUserStore()
             <div class="user-info">
               <img
                 :src="
-                  useStore.user.avatar.url
+                  useStore.user.avatar
                     ? useStore.user.avatar.url
                     : '@/assets/images/default_unknow@2x.png'
                 "
@@ -36,7 +50,11 @@ const useStore = useUserStore()
                 content="退出登录"
                 placement="bottom"
               >
-                <img src="@/assets/images/logout-btns.png" class="logout-img" />
+                <img
+                  src="@/assets/images/logout-btns.png"
+                  class="logout-img"
+                  @click="logoutVisible = true"
+                />
               </el-tooltip>
             </div>
           </div>
@@ -44,6 +62,15 @@ const useStore = useUserStore()
       </el-row>
     </div>
   </div>
+  <el-dialog v-model="logoutVisible" width="500" align-center>
+    <div class="dialog-content">您确定退出登录？</div>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="logoutVisible = false">取消</el-button>
+        <el-button type="primary" @click="logout">确定</el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -93,6 +120,7 @@ const useStore = useUserStore()
         .user-avater {
           width: 30px;
           height: 30px;
+          border-radius: 50%;
         }
         .user-name {
           font-weight: 400;
@@ -110,5 +138,10 @@ const useStore = useUserStore()
       }
     }
   }
+}
+.dialog-content {
+  font-size: 20px;
+  color: #303133;
+  padding: 40px;
 }
 </style>

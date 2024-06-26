@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getSDK } from '@/utils/open-im-sdk-wasm'
 import { CbEvents } from '@/utils/open-im-sdk-wasm/constant'
-import { reqEmoji } from '@/api/user'
+import { reqEmoji, reqGetUsers } from '@/api/user'
 import { ConversationItem } from '@/utils/open-im-sdk-wasm/types/entity'
 import useUserStore from './user'
 import type { ExMessageItem, IAdvancedMessageResponse } from './type'
@@ -19,6 +19,7 @@ let useChartStore = defineStore('chart', {
         isEnd: false,
       },
       currentConversation: {} as any,
+      info: {} as any,
     }
   },
   actions: {
@@ -63,6 +64,11 @@ let useChartStore = defineStore('chart', {
       })
         .then(({ data }) => {
           // 调用成功
+          data.forEach((item) => {
+            if (JSON.parse(item.latestMsg).textElem) {
+              JSON.parse(item.latestMsg).textElem!.content = transformFace(JSON.parse(item.latestMsg).textElem?.content)
+            }
+          })
           this.conversationList = data
           this.getEmoji()
           console.log(this.conversationList, '调用成功1**************')
@@ -73,13 +79,12 @@ let useChartStore = defineStore('chart', {
         })
     },
     handleChartPage(conversation) {
-      this.showChartPage = true
       this.currentConversation = conversation
       console.log(conversation, '****---------------')
+      this.showChartPage = true
       IMSDK.getLoginStatus()
         .then(({ data }) => {
           // data: 登录状态LoginStatus
-          console.log(data, '9-----')
           if (data == 3) {
             this.messageList = []
             this.messageObj = Object.assign(this.messageObj, {
@@ -87,6 +92,7 @@ let useChartStore = defineStore('chart', {
               isEnd: false,
             })
             this.getMessageList()
+            this.getUser(conversation)
           }
         })
         .catch(({ errCode, errMsg }) => {
@@ -122,6 +128,15 @@ let useChartStore = defineStore('chart', {
           // 调用失败
           console.log(errCode, errMsg, '获取消息失败')
         })
+    },
+    async getUser(conversation) {
+      if (conversation.groupID) {
+        let str = conversation.groupID.split('_')
+         await reqGetUsers(`${str[str.length - 1]}`).then((res)=>{
+          this.info = res
+          console.log(this.info,res,'5656')
+         })
+      }
     },
   },
   getters: {},

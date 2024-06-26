@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onUpdated, nextTick, onUnmounted, onMounted } from 'vue'
 import userCart from './userCart.vue'
 import { getSDK } from '@/utils/open-im-sdk-wasm'
-import { CbEvents } from '@/utils/open-im-sdk-wasm/constant'
 import useChartStore from '@/stores/modules/chart'
 import useUserStore from '@/stores/modules/user'
 import { formatConversionTime } from '@/utils/im'
 import type { MessageItem } from '@/utils/open-im-sdk-wasm/types/entity'
-import debounce from 'lodash/debounce'
+
 const IMSDK = getSDK('./openIM.wasm')
 const useChart = useChartStore()
 const useStore = useUserStore()
@@ -32,27 +31,21 @@ const message = reactive([
 ])
 const textarea = ref('')
 const text = ref()
-const scrollbar = ref<any>(null)
-const isLoading = ref(false)
 
 const handleInput = async () => {
   const { data: message } = await IMSDK.createTextMessage<MessageItem>(
     textarea.value,
   )
   message.sessionType = 3
-  message.recvID = 'mp_test_48_mp_test_44'
   text.value = message
   console.log(text.value, '我的一条小组---------------')
 }
-IMSDK.on(CbEvents.OnRecvNewMessages, ({ data: messages }) => {
-  // 收到新消息
-  console.log({ data: messages }, '----------')
-})
-
 const sendMessage = async () => {
   IMSDK.sendMessage({
     recvID: '', // 接收方ID
-    groupID: 'mp_test_48_mp_test_44', // 群聊ID
+    groupID: useChart.currentConversation.groupID
+      ? useChart.currentConversation.groupID
+      : '', // 群聊ID
     message: text.value, // 要发送的消息体
   })
     .then(({ data: succeedMessage }) => {
@@ -61,6 +54,9 @@ const sendMessage = async () => {
         succeedMessage,
         '发送成功 succeedMessage为发送成功后完整的消息体',
       )
+      useChart.messageList.push(text.value)
+      textarea.value=''
+      useChart.getAllConversationList()
     })
     .catch(({ errCode, errMsg }) => {
       // 发送失败
@@ -68,23 +64,20 @@ const sendMessage = async () => {
     })
 }
 
-const handleScroll = debounce(function (event) {
-  if (!isLoading.value) {
-    let wrap = scrollbar.value.wrapRef
-    scrollbar.value.moveY = (wrap.scrollTop * 100) / wrap.clientHeight
-    scrollbar.value.moveX = (wrap.scrollLeft * 100) / wrap.clientWidth
-    let poor = wrap.scrollHeight - wrap.clientHeight
-    if (event.scrollTop + 2 >= poor) {
-      console.log('触底了---------')
-      loadData()
-    }
-  }
-}, 500)
-const loadData = () => {
-  isLoading.value = true
-  console.log(8989)
-  isLoading.value = false
-}
+onUpdated(() => {
+  nextTick(() => {
+    let boxs = document.querySelector('.chart-center')
+    boxs!.scrollTo({ top: boxs?.scrollHeight })
+  })
+})
+onUnmounted(() => {
+  useChart.showChartPage = false
+})
+
+onMounted(async () => {})
+// const handleFiles=(event)=> {
+//       console.log(event,'33333')
+//     }
 </script>
 
 <template>
@@ -112,12 +105,7 @@ const loadData = () => {
           </div>
         </div>
       </div>
-      <el-scrollbar
-        class="chart-center"
-        id="chart-demo"
-        ref="scrollbar"
-        @scroll="handleScroll"
-      >
+      <div class="chart-center">
         <div v-for="message in useChart.messageList" :key="message.clientMsgID">
           <div class="chart-time">
             <p>{{ formatConversionTime(message.sendTime) }}</p>
@@ -166,13 +154,14 @@ const loadData = () => {
             </div>
           </div>
         </div>
-      </el-scrollbar>
+      </div>
       <div class="chart-bottom">
         <div class="top">
           <div class="emo-boxs">
             <img src="@/assets/images/icon-emo-btns.png" />
           </div>
           <div class="pictrue-boxs">
+            <!-- <input type="file" @change="handleFiles" multiple> -->
             <img src="@/assets/images/icon-pictrue-btns.png" />
           </div>
           <el-select
@@ -272,6 +261,7 @@ const loadData = () => {
       font-weight: 400;
       font-size: 14px;
       color: #606677;
+      overflow: auto;
       .chart-time {
         height: 40px;
         line-height: 20px;

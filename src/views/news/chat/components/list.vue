@@ -29,7 +29,7 @@ const handleChartPage = (conversation: any) => {
           {{ JSON.parse(item.latestMsg).textElem?.content }}
         </div>
         <div class="nums" v-if="item.unreadCount > 0">
-          {{ item.unreadCount }}
+          <p>{{ item.unreadCount }}</p>
         </div>
       </div>
     </div>
@@ -39,7 +39,6 @@ const handleChartPage = (conversation: any) => {
 <style scoped lang="scss">
 .list-item {
   height: 70px;
-  //   background-color: aliceblue;
   display: flex;
   align-items: center;
   .avatar {
@@ -59,7 +58,7 @@ const handleChartPage = (conversation: any) => {
       color: #606677;
     }
     .info-content {
-      padding-top: 8px;
+      margin-top: 8px;
       display: flex;
       justify-content: space-between;
       font-weight: 400;
@@ -70,14 +69,17 @@ const handleChartPage = (conversation: any) => {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        padding: 5px 0;
       }
       .nums {
-        padding: 1px 4px;
-        font-size: 14px;
-        background: #ea5656;
-        border-radius: 50%;
-        color: #fff;
-        margin-left: 20px;
+        p {
+          background: #ea5656;
+          border-radius: 50%;
+          color: #fff;
+          margin-left: 10px;
+          padding: 5px 7px;
+          font-size: 14px;
+        }
       }
     }
   }

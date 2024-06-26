@@ -49,6 +49,7 @@ let useUserStore = defineStore('User', {
       IMSDK.logout()
         .then(() => {
           // 退出登录成功
+
         })
         .catch(({ errCode, errMsg }) => {
           // 调用失败

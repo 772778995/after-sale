@@ -3,6 +3,7 @@ import { Close } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import useUserStore from '@/stores/modules/user'
 import useLayoutSettingStore from '@/stores/modules/setting'
+import { onUnmounted } from 'vue'
 
 const $route = useRoute()
 const $router = useRouter()
@@ -45,6 +46,9 @@ const handleCloseTag = (tag: any) => {
 const changeIcon = () => {
   LayoutSettingStore.fold = !LayoutSettingStore.fold
 }
+onUnmounted(() => {
+  userStore.addRouteTag = []
+})
 </script>
 
 <template>
