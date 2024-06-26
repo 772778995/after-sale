@@ -9,11 +9,11 @@ const logoutVisible = ref(false)
 const logout = () => {
   logoutVisible.value = false
   useStore.userLogout()
-      $router.push({ path: '/login' })
-      ElNotification({
-        type: 'success',
-        message: '退出成功',
-      })
+  $router.push({ path: '/login' })
+  ElNotification({
+    type: 'success',
+    message: '退出成功',
+  })
 }
 </script>
 

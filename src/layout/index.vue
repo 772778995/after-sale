@@ -6,7 +6,6 @@ import useUserStore from '@/stores/modules/user'
 import useLayoutSettingStore from '@/stores/modules/setting'
 const userStore = useUserStore()
 const LayoutSettingStore = useLayoutSettingStore()
-
 </script>
 
 <template>

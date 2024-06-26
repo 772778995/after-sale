@@ -55,7 +55,7 @@ const sendMessage = async () => {
         '发送成功 succeedMessage为发送成功后完整的消息体',
       )
       useChart.messageList.push(text.value)
-      textarea.value=''
+      textarea.value = ''
       useChart.getAllConversationList()
     })
     .catch(({ errCode, errMsg }) => {

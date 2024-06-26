@@ -33,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
             // token 过期  退出登录
             // 用户手动更改token
             useStore.userLogout()
-            next({ path: '/login'})
+            next({ path: '/login' })
           })
       }
     }

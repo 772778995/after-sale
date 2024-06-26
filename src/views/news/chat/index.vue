@@ -14,11 +14,16 @@ const useChart = useChartStore()
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
-onMounted(()=>{
+onMounted(() => {
   // useChart.IMLogin()
 })
 const tabs = reactive([
-  { id: 1, name: 'first', title: '正在接待', nums: useChart.conversationList.length },
+  {
+    id: 1,
+    name: 'first',
+    title: '正在接待',
+    nums: useChart.conversationList.length,
+  },
   { id: 2, name: 'second', title: '等待接待', nums: '0' },
   { id: 3, name: 'third', title: '历史接待', nums: '0' },
 ])
@@ -46,7 +51,7 @@ IMSDK.on(CbEvents.OnRecvNewMessages, ({ data: messages }) => {
           <template #label>
             <div class="custom-tabs-label">
               <p>{{ item.title }}</p>
-              <p class="tag-num" >({{ item.nums }}人)</p>
+              <p class="tag-num">({{ item.nums }}人)</p>
             </div>
           </template>
           <el-scrollbar class="lists">

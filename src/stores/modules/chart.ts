@@ -66,7 +66,9 @@ let useChartStore = defineStore('chart', {
           // 调用成功
           data.forEach((item) => {
             if (JSON.parse(item.latestMsg).textElem) {
-              JSON.parse(item.latestMsg).textElem!.content = transformFace(JSON.parse(item.latestMsg).textElem?.content)
+              JSON.parse(item.latestMsg).textElem!.content = transformFace(
+                JSON.parse(item.latestMsg).textElem?.content,
+              )
             }
           })
           this.conversationList = data
@@ -132,10 +134,10 @@ let useChartStore = defineStore('chart', {
     async getUser(conversation) {
       if (conversation.groupID) {
         let str = conversation.groupID.split('_')
-         await reqGetUsers(`${str[str.length - 1]}`).then((res)=>{
+        await reqGetUsers(`${str[str.length - 1]}`).then((res) => {
           this.info = res
-          console.log(this.info,res,'5656')
-         })
+          console.log(this.info, res, '5656')
+        })
       }
     },
   },

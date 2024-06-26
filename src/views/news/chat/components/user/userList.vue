@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {ref } from 'vue'
+import { ref } from 'vue'
 import useChartStore from '@/stores/modules/chart'
 import { formatConversionTime } from '@/utils/im'
 const userName = ref('')
-const { info,currentConversation } = useChartStore()
+const { info, currentConversation } = useChartStore()
 const editName = (row: any) => {
   console.log(row)
 }
