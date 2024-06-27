@@ -20,7 +20,7 @@ type storageObj = {
 }
 export interface fileData {
   filename: string
-  hash:string
+  hash: string
   size: string
   mime_type: string
   storage: storageObj

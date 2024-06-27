@@ -73,7 +73,6 @@ let useChartStore = defineStore('chart', {
           // 调用失败
           console.log(errCode, errMsg, '调用失败**************')
         })
-
     },
     handleChartPage(conversation) {
       this.currentConversation = conversation

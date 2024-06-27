@@ -29,6 +29,6 @@ export const transformFace = (text: any) => {
   return newText
 }
 export const getFileType = (name: string) => {
-  const idx = name.lastIndexOf(".");
-  return name.slice(idx + 1);
-};
+  const idx = name.lastIndexOf('.')
+  return name.slice(idx + 1)
+}
