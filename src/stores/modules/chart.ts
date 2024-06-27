@@ -7,6 +7,7 @@ import useUserStore from './user'
 import type { ExMessageItem, IAdvancedMessageResponse } from './type'
 const IMSDK = getSDK('./openIM.wasm')
 import { transformFace } from '@/utils/im'
+import { nextTick } from 'vue'
 let useChartStore = defineStore('chart', {
   state: () => {
     return {
@@ -64,13 +65,6 @@ let useChartStore = defineStore('chart', {
       })
         .then(({ data }) => {
           // 调用成功
-          data.forEach((item) => {
-            if (JSON.parse(item.latestMsg).textElem) {
-              JSON.parse(item.latestMsg).textElem!.content = transformFace(
-                JSON.parse(item.latestMsg).textElem?.content,
-              )
-            }
-          })
           this.conversationList = data
           this.getEmoji()
           console.log(this.conversationList, '调用成功1**************')
@@ -79,6 +73,7 @@ let useChartStore = defineStore('chart', {
           // 调用失败
           console.log(errCode, errMsg, '调用失败**************')
         })
+
     },
     handleChartPage(conversation) {
       this.currentConversation = conversation
@@ -94,7 +89,10 @@ let useChartStore = defineStore('chart', {
               isEnd: false,
             })
             this.getMessageList()
-            this.getUser(conversation)
+
+            nextTick(() => {
+              this.getUser(conversation)
+            })
           }
         })
         .catch(({ errCode, errMsg }) => {

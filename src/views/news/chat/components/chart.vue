@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, reactive, onUpdated, nextTick, onUnmounted, onMounted } from 'vue'
+import { v4 as uuid4 } from 'uuid'
 import userCart from './userCart.vue'
 import { getSDK } from '@/utils/open-im-sdk-wasm'
 import useChartStore from '@/stores/modules/chart'
 import useUserStore from '@/stores/modules/user'
-import { formatConversionTime } from '@/utils/im'
+import { formatConversionTime, transformFace, getFileType } from '@/utils/im'
 import type { MessageItem } from '@/utils/open-im-sdk-wasm/types/entity'
-
 const IMSDK = getSDK('./openIM.wasm')
 const useChart = useChartStore()
 const useStore = useUserStore()
@@ -31,18 +31,21 @@ const message = reactive([
 ])
 const textarea = ref('')
 const text = ref()
-
-const handleInput = async () => {
-  const { data: message } = await IMSDK.createTextMessage<MessageItem>(
-    textarea.value,
-  )
-  message.sessionType = 3
-  text.value = message
-  console.log(text.value, '我的一条小组---------------')
-}
+const blurIndex = ref(0)
+const autofocus = ref()
 const sendMessage = async () => {
+  let body = text.value
+  for (let i = 0; i < useChart.emojis.length; i++) {
+    body.textElem.content = body?.textElem?.content.replace(
+      new RegExp(useChart.emojis[i]['glyph'], 'g'),
+      '[' + useChart.emojis[i]['name'] + ']',
+    )
+  }
+  console.log(text.value)
   IMSDK.sendMessage({
-    recvID: '', // 接收方ID
+    recvID: useChart.currentConversation.userID
+      ? useChart.currentConversation.userID
+      : '', // 接收方ID
     groupID: useChart.currentConversation.groupID
       ? useChart.currentConversation.groupID
       : '', // 群聊ID
@@ -52,8 +55,10 @@ const sendMessage = async () => {
       // 发送成功 succeedMessage为发送成功后完整的消息体
       console.log(
         succeedMessage,
+        text.value.textElem.content,
         '发送成功 succeedMessage为发送成功后完整的消息体',
       )
+      text.value.textElem.content = transformFace(text.value.textElem.content)
       useChart.messageList.push(text.value)
       textarea.value = ''
       useChart.getAllConversationList()
@@ -75,9 +80,93 @@ onUnmounted(() => {
 })
 
 onMounted(async () => {})
-// const handleFiles=(event)=> {
-//       console.log(event,'33333')
-//     }
+// 点击表情包
+const handleEmojiImg = (data) => {
+  let emoji = data.glyph
+  textarea.value =
+    textarea.value.slice(0, blurIndex.value) +
+    emoji +
+    textarea.value.slice(blurIndex.value, textarea.value.length)
+  autofocus.value.focus()
+}
+// input失去焦点
+const handleBlur = async (event) => {
+  blurIndex.value = event.srcElement.selectionStart
+  let { data: message } = await IMSDK.createTextMessage<MessageItem>(
+    textarea.value,
+  )
+  message.sessionType = 3
+  text.value = message
+}
+const getPicInfo = (file: File): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    console.log(reject)
+    const _URL = window.URL || window.webkitURL
+    const img = new Image()
+    img.onload = function () {
+      resolve(img)
+    }
+    img.src = _URL.createObjectURL(file)
+  })
+// 点击上传图片
+const handleFiles = async (event) => {
+  const File = event.target.files[0]
+  IMSDK.uploadFile({
+    name: File.name,
+    contentType: getFileType(File.name),
+    uuid: uuid4(),
+    file: File, // web端传入文件对象
+  })
+    .then(async ({ data }) => {
+      // url: 文件远程链接
+      console.log(data, '文件远程链接')
+      const { width, height } = await getPicInfo(File)
+      const picBaseInfo = {
+        uuid: uuid4(),
+        type: getFileType(File.name),
+        size: File.size,
+        width,
+        height,
+        url: data.url,
+      }
+      IMSDK.createImageMessageByFile<MessageItem>({
+        sourcePicture: picBaseInfo,
+        bigPicture: picBaseInfo,
+        snapshotPicture: picBaseInfo,
+        file: File,
+      })
+        .then(({ data }) => {
+          data.sessionType = 3
+          // 调用成功
+          console.log(data, '创建图片成功')
+          IMSDK.sendMessage({
+            recvID: '', // 接收方ID
+            groupID: useChart.currentConversation.groupID
+              ? useChart.currentConversation.groupID
+              : '', // 群聊ID
+            message: data, // 要发送的消息体
+          })
+            .then(({ data: succeedMessage }) => {
+              // 发送成功 succeedMessage为发送成功后完整的消息体
+              console.log(succeedMessage, '发送成功图片')
+              useChart.messageList.push(data)
+              useChart.getAllConversationList()
+            })
+            .catch(({ errCode, errMsg }) => {
+              // 发送失败
+              console.log(errCode, errMsg, '发送失败')
+            })
+        })
+        .catch(({ errCode, errMsg }) => {
+          // 调用失败
+          console.log(errCode, errMsg, '创建图片失败')
+        })
+    })
+    .catch(({ errCode, errMsg }) => {
+      // 上传失败
+      console.log(errCode, errMsg, '上传失败文件远程链接')
+    })
+}
 </script>
 
 <template>
@@ -122,7 +211,25 @@ onMounted(async () => {})
             </div>
             <div class="bar-rt">
               <div class="name">{{ message.senderNickname }}</div>
-              <div class="content lt">{{ message.textElem?.content }}</div>
+              <div class="content lt">
+                <p v-if="message.textElem">{{ message.textElem?.content }}</p>
+                <img
+                  v-if="message.pictureElem"
+                  :src="message.pictureElem?.snapshotPicture.url"
+                  class="picture"
+                />
+                <audio
+                  v-if="message.soundElem"
+                  :src="message.soundElem?.sourceUrl"
+                  controls="false"
+                ></audio>
+                <video
+                  v-if="message.videoElem"
+                  class="picture"
+                  :src="message.videoElem?.videoUrl"
+                  controls
+                ></video>
+              </div>
             </div>
           </div>
 
@@ -130,7 +237,7 @@ onMounted(async () => {})
             <div class="bar-lt">
               <div class="name rt">{{ message.senderNickname }}</div>
               <div class="content">
-                {{ message.textElem?.content }}
+                <p v-if="message.textElem">{{ message.textElem?.content }}</p>
                 <img
                   v-if="message.pictureElem"
                   :src="message.pictureElem?.snapshotPicture.url"
@@ -158,17 +265,35 @@ onMounted(async () => {})
       <div class="chart-bottom">
         <div class="top">
           <div class="emo-boxs">
-            <img src="@/assets/images/icon-emo-btns.png" />
+            <el-popover
+              placement="top"
+              class="my-popover"
+              :width="400"
+              trigger="hover"
+            >
+              <template #reference>
+                <img src="@/assets/images/icon-emo-btns.png" />
+              </template>
+              <ul class="popover-ul">
+                <li
+                  v-for="emoji in useChart.emojis"
+                  :key="emoji.id"
+                  @click="handleEmojiImg(emoji)"
+                >
+                  <img :src="emoji.image.url" />
+                </li>
+              </ul>
+            </el-popover>
           </div>
           <div class="pictrue-boxs">
-            <!-- <input type="file" @change="handleFiles" multiple> -->
+            <input type="file" @change="handleFiles" multiple />
             <img src="@/assets/images/icon-pictrue-btns.png" />
           </div>
           <el-select
             v-model="quickValue"
             placeholder="快捷回复"
             size="large"
-            style="width: 240px"
+            style="width: 240px; margin-left: 20px"
           >
             <el-option
               v-for="item in message"
@@ -185,8 +310,9 @@ onMounted(async () => {})
             v-model="textarea"
             placeholder="请输入内容"
             :rows="4"
+            ref="autofocus"
             type="textarea"
-            @change="handleInput"
+            @blur="handleBlur($event)"
           />
           <div class="send-boxs">
             <span>{{ textarea.length }}/300字</span>
@@ -202,6 +328,11 @@ onMounted(async () => {})
 </template>
 
 <style scoped lang="scss">
+@font-face {
+  font-family: fluentEmoji;
+  src: url('https://file.midiplus.com/emoji/v0.6/fluent-emoji.ttf')
+    format('truetype');
+}
 .chart-contanier {
   width: 100%;
   height: 100%;
@@ -297,8 +428,12 @@ onMounted(async () => {})
             background: #d7e8ff;
             padding: 10px 14px;
             border-radius: 4px;
+            font-family: fluentEmoji;
             &.lt {
               background-color: #fff;
+              max-width: 700px;
+              word-wrap: break-word;
+              white-space: normal;
             }
             .picture {
               width: 350px;
@@ -328,16 +463,31 @@ onMounted(async () => {})
         border-bottom: 1px solid #e3e3e3;
         .emo-boxs {
           padding: 0 16px;
+          cursor: pointer;
           img {
             width: 24px;
             height: 24px;
           }
         }
+
         .pictrue-boxs {
           padding: 0 34px 0 10px;
+          position: relative;
+
+          input {
+            opacity: 0;
+            position: absolute;
+            z-index: 1;
+            top: -13px;
+            left: 0;
+          }
           img {
             width: 26px;
             height: 22px;
+            position: absolute;
+            left: 8px;
+            top: -11px;
+            cursor: pointer;
           }
         }
       }
@@ -359,9 +509,22 @@ onMounted(async () => {})
     width: 400px;
   }
 }
+.popover-ul {
+  height: 280px;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  li {
+    margin: 5px;
+    img {
+      width: 25px;
+    }
+  }
+}
 :deep(.no-border .el-textarea__inner) {
   border: none;
   border-radius: 0;
   box-shadow: none;
+  font-family: fluentEmoji;
 }
 </style>

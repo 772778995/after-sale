@@ -54,3 +54,4 @@ export const reqRegisterVerifyCodes = (data: loginCodesData) => {
 export const reqRestPassword = (data: registerData) => {
   return request.put(API.RestPassword_URL, data)
 }
+

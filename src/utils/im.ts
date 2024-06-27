@@ -2,7 +2,6 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime' // 导入 relativeTime 插件
 import calendar from 'dayjs/plugin/calendar' // 导入插件
 import useChartStore from '@/stores/modules/chart'
-
 dayjs.extend(relativeTime)
 dayjs.extend(calendar)
 
@@ -29,3 +28,7 @@ export const transformFace = (text: any) => {
   })
   return newText
 }
+export const getFileType = (name: string) => {
+  const idx = name.lastIndexOf(".");
+  return name.slice(idx + 1);
+};
