@@ -16,7 +16,6 @@ const goDefultData = () => {
   headerDate.value.forEach((item: any) => {
     item.isHidden = false
   })
-  console.log(headerDate.value, '0000')
 }
 const currentPage = ref(1)
 const pageSize = ref(5)
@@ -52,7 +51,6 @@ const moveUp = (row: any) => {
   const selectedIndex = headerDate.value.findIndex(
     (item: any) => item.ids === row.ids,
   )
-  console.log()
   if (selectedIndex > 0) {
     const temp = headerDate.value[selectedIndex - 1]
     headerDate.value.splice(
@@ -82,7 +80,6 @@ const isDown = (row) => {
   return findIndex === headerDate.value.length - 1
 }
 </script>
-
 <template>
   <div class="boxs-tip">
     <div class="tip">

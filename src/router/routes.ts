@@ -6,6 +6,11 @@ import set from '@/assets/images/icon-menu-set.png'
 import setActive from '@/assets/images/icon-menu-set-active.png'
 export const constantRoute = [
   {
+    path: '/login',
+    component: () => import('@/views/login/index.vue'),
+    name: 'login',
+  },
+  {
     path: '/',
     component: () => import('@/layout/index.vue'),
     name: 'layout',
@@ -42,9 +47,9 @@ export const constantRoute = [
     },
     children: [
       {
-        path: '/news/chart',
-        component: () => import('@/views/news/chat/index.vue'),
-        name: 'Chart',
+        path: '/news/chartLayout',
+        component: () => import('@/views/news/chartLayout/index.vue'),
+        name: 'ChartLayout',
         meta: {
           title: '会话',
         },
@@ -112,11 +117,7 @@ export const constantRoute = [
       },
     ],
   },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index.vue'),
-    name: 'login',
-  },
+
   {
     path: '/404',
     component: () => import('@/views/404/index.vue'),

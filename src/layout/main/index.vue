@@ -80,10 +80,12 @@ onUnmounted(() => {
     </div>
   </div>
   <div class="mainContent">
-    <el-scrollbar>
-      <router-view v-slot="{ Component }">
-        <component :is="Component" />
-      </router-view>
+    <el-scrollbar class="custom-scrollbar-container">
+      <div class="el-scrollbar__view">
+        <router-view v-slot="{ Component }">
+          <component :is="Component" />
+        </router-view>
+      </div>
     </el-scrollbar>
   </div>
 </template>
@@ -138,11 +140,21 @@ onUnmounted(() => {
   padding: 16px 21px 16px 11px;
   margin: 0 24px 24px 0;
   border-radius: 0 10px 10px;
+  // .el-scrollbar {
+  //   height: 100% !important;
+  //   background-color: #fff !important;
+  // }
+  // .el-scrollbar__view {
+  //   height: 100% !important;
+  // }
+  .custom-scrollbar-container {
+    background-color: #fff !important;
+    .el-scrollbar__view {
+      height: 100%;
+    }
+  }
 }
-.el-scrollbar {
-  height: 100% !important;
-  background-color: #fff !important;
-}
+
 /* 隐藏滚动条的样式 */
 ::-webkit-scrollbar {
   display: none;
